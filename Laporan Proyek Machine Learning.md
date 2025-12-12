@@ -138,8 +138,6 @@ Jelaskan setiap fitur/kolom yang ada dalam dataset.
 | Statistical_report | Categorical | Menunjukkan apakah ada laporan statistik terkait domain tersebut | 1 = Ya, -1 = Tidak, 0 = Netral |
 | Result | Categorical | Ini adalah variabel target, yang mengindikasikan apakah URL tersebut adalah *phishing* (`1` atau `-1`) atau tidak (`0` atau `1`) | 1 = Ya, -1 = Tidak, 0 = Netral |
 
-**[Buat tabel deskripsi fitur Anda di sini]**
-
 ### 4.3 Kondisi Data
 
 Jelaskan kondisi dan permasalahan data:
@@ -155,16 +153,7 @@ Jelaskan kondisi dan permasalahan data:
 
 **Requirement:** Minimal 3 visualisasi yang bermakna dan insight-nya.
 **Contoh jenis visualisasi yang dapat digunakan:**
-- Histogram (distribusi data)
-- Boxplot (deteksi outliers)
-- Heatmap korelasi (hubungan antar fitur)
-- Bar plot (distribusi kategori)
-- Scatter plot (hubungan 2 variabel)
-- Wordcloud (untuk text data)
-- Sample images (untuk image data)
-- Time series plot (untuk temporal data)
-- Confusion matrix heatmap
-- Class distribution plot
+Jadi, fokuslah pada Histogram, Boxplot, Heatmap Korelasi, Bar Plot (termasuk Class Distribution Plot), dan setelah melatih model, Confusion Matrix Heatmap.
 
 
 #### Visualisasi 1: [Judul Visualisasi]
