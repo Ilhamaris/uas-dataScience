@@ -106,36 +106,37 @@ Jelaskan setiap fitur/kolom yang ada dalam dataset.
 **Contoh tabel:**
 | Nama Fitur | Tipe Data | Deskripsi | Contoh Nilai |
 |------------|-----------|-----------|--------------|
-| having_IP_Address | Categorical | Menggunakan alamat IP atau nama domain  | 1 = Ya, -1 = Tidak, 0 = Netral |
+| having_IP_Address | Categorical | Menggunakan alamat IP atau nama domain | 1 = Ya, -1 = Tidak, 0 = Netral |
 | URL_Length | Categorical | Menunjukkan panjang URL | 1 = Ya, -1 = Tidak, 0 = Netral |
 | Shortining_Service | Categorical | Menunjukkan apakah URL menggunakan layanan pemendek URL | 1 = Ya, -1 = Tidak, 0 = Netral |
 | having_At_Symbol | Categorical | Menunjukkan apakah simbol `@` ada dalam URL | 1 = Ya, -1 = Tidak, 0 = Netral |
 | double_slash_redirecting | Categorical | Menunjukkan apakah ada pengalihan ganda (misal, `//www.example.com`).  | 1 = Ya, -1 = Tidak, 0 = Netral |
 | Prefix_Suffix | Categorical | Menunjukkan apakah ada awalan atau akhiran yang dipisahkan oleh `-` dalam nama domain (misal, `login-bank.com`).  | 1 = Ya, -1 = Tidak, 0 = Netral |
-| having_Sub_Domain | Categorical | ==================================== | 1 = Ya, -1 = Tidak, 0 = Netral |
-| SSLfinal_State | Categorical | ==================================== | 1 = Ya, -1 = Tidak, 0 = Netral |
-| Domain_registeration_length | Categorical | ==================================== | 1 = Ya, -1 = Tidak, 0 = Netral |
-| Favicon | Categorical | ==================================== | 1 = Ya, -1 = Tidak, 0 = Netral |
-| port | Categorical | ==================================== | 1 = Ya, -1 = Tidak, 0 = Netral |
-| HTTPS_token | Categorical | ==================================== | 1 = Ya, -1 = Tidak, 0 = Netral |
-| Request_URL | Categorical | ==================================== | 1 = Ya, -1 = Tidak, 0 = Netral |
-| URL_of_Anchor | Categorical | ==================================== | 1 = Ya, -1 = Tidak, 0 = Netral |
-| Links_in_tags | Categorical | ==================================== | 1 = Ya, -1 = Tidak, 0 = Netral |
-| SFH | Categorical | ==================================== | 1 = Ya, -1 = Tidak, 0 = Netral |
-| Submitting_to_email | Categorical | ==================================== | 1 = Ya, -1 = Tidak, 0 = Netral |
-| Abnormal_URL | Categorical | ==================================== | 1 = Ya, -1 = Tidak, 0 = Netral |
-| Redirect | Categorical | ==================================== | 1 = Ya, -1 = Tidak, 0 = Netral |
-| on_mouseover | Categorical | ==================================== | 1 = Ya, -1 = Tidak, 0 = Netral |
-| RightClick | Categorical | ==================================== | 1 = Ya, -1 = Tidak, 0 = Netral |
-| popUpWidnow | Categorical | ==================================== | 1 = Ya, -1 = Tidak, 0 = Netral |
-| Iframe | Categorical | ==================================== | 1 = Ya, -1 = Tidak, 0 = Netral |
-| age_of_domain | Categorical | ==================================== | 1 = Ya, -1 = Tidak, 0 = Netral |
-| DNSRecord | Categorical | ==================================== | 1 = Ya, -1 = Tidak, 0 = Netral |
-| web_traffic | Categorical | ==================================== | 1 = Ya, -1 = Tidak, 0 = Netral |
-| Google_Index | Categorical | ==================================== | 1 = Ya, -1 = Tidak, 0 = Netral |
-| Links_pointing_to_page | Categorical | ==================================== | 1 = Ya, -1 = Tidak, 0 = Netral |
-| Statistical_report | Categorical | ==================================== | 1 = Ya, -1 = Tidak, 0 = Netral |
-| Result | Categorical | ==================================== | 1 = Ya, -1 = Tidak, 0 = Netral |
+| having_Sub_Domain | Categorical | Menunjukkan jumlah *sub-domain* dalam URL | 1 = Ya, -1 = Tidak, 0 = Netral |
+| SSLfinal_State | Categorical | Menunjukkan status sertifikat SSL (HTTPS) | 1 = Ya, -1 = Tidak, 0 = Netral |
+| Domain_registeration_length | Categorical | Menunjukkan berapa lama nama domain terdaftar | 1 = Ya, -1 = Tidak, 0 = Netral |
+| Favicon | Categorical | Menunjukkan apakah *favicon* (ikon situs web) dimuat dari domain yang berbeda.  | 1 = Ya, -1 = Tidak, 0 = Netral |
+| port | Categorical | Menunjukkan apakah ada penggunaan *port* yang tidak standar dalam URL | 1 = Ya, -1 = Tidak, 0 = Netral |
+| HTTPS_token | Categorical | Menunjukkan apakah token 'HTTPS' ada dalam nama domain (misal, `https-login.com`) | 1 = Ya, -1 = Tidak, 0 = Netral |
+| Request_URL | Categorical | Menunjukkan apakah objek yang diminta (gambar, video, dll.) dimuat dari domain yang berbeda | 1 = Ya, -1 = Tidak, 0 = Netral |
+| URL_of_Anchor | Categorical | Menunjukkan apakah URL *anchor* (link yang terlihat) mengarah ke domain yang berbeda dari domain utama | 1 = Ya, -1 = Tidak, 0 = Netral |
+| Links_in_tags | Categorical | Menunjukkan persentase tautan dalam tag HTML (`<a>`, `<form>`, `<iframe>`, `<script>`) yang mengarah ke domain yang berbeda. | 1 = Ya, -1 = Tidak, 0 = Netral |
+| SFH | Categorical | Menunjukkan apakah URL formulir aman atau tidak (*Server Form Handler*).  | 1 = Ya, -1 = Tidak, 0 = Netral |
+| Submitting_to_email | Categorical | Menunjukkan apakah informasi formulir dikirimkan langsung ke alamat email. Ini adalah metode yang sering digunakan *phisher*. | 1 = Ya, -1 = Tidak, 0 = Netral |
+| Abnormal_URL | Categorical | Menunjukkan apakah URL memiliki karakter atau struktur yang tidak biasa atau mencurigakan. | 1 = Ya, -1 = Tidak, 0 = Netral |
+| Redirect | Categorical | Menunjukkan jumlah pengalihan. Situs *phishing* sering menggunakan beberapa pengalihan untuk menyembunyikan tujuan akhir. | 1 = Ya, -1 = Tidak, 0 = Netral |
+| on_mouseover | Categorical | Menunjukkan apakah fungsi `onMouseOver` mengubah status bar.  | 1 = Ya, -1 = Tidak, 0 = Netral |
+| RightClick | Categorical | Menunjukkan apakah klik kanan dinonaktifkan. | 1 = Ya, -1 = Tidak, 0 = Netral |
+| popUpWidnow | Categorical | Menunjukkan apakah ada jendela *pop-up* yang muncul. | 1 = Ya, -1 = Tidak, 0 = Netral |
+| Iframe | Categorical | Menunjukkan apakah ada penggunaan *iframe*. | 1 = Ya, -1 = Tidak, 0 = Netral |
+| age_of_domain | Categorical | Menunjukkan usia domain. | 1 = Ya, -1 = Tidak, 0 = Netral |
+| DNSRecord | Categorical | Menunjukkan apakah ada catatan DNS untuk domain tersebut. | 1 = Ya, -1 = Tidak, 0 = Netral |
+| web_traffic | Categorical | Menunjukkan peringkat lalu lintas web situs. | 1 = Ya, -1 = Tidak, 0 = Netral |
+| Page_Rank | Categorical | Menunjukkan peringkat halaman Google situs. . | 1 = Ya, -1 = Tidak, 0 = Netral |
+| Google_Index | Categorical | Menunjukkan apakah situs diindeks oleh Google.  | 1 = Ya, -1 = Tidak, 0 = Netral |
+| Links_pointing_to_page | Categorical | Menunjukkan jumlah tautan yang mengarah ke halaman tersebut. | 1 = Ya, -1 = Tidak, 0 = Netral |
+| Statistical_report | Categorical | Menunjukkan apakah ada laporan statistik terkait domain tersebut | 1 = Ya, -1 = Tidak, 0 = Netral |
+| Result | Categorical | Ini adalah variabel target, yang mengindikasikan apakah URL tersebut adalah *phishing* (`1` atau `-1`) atau tidak (`0` atau `1`) | 1 = Ya, -1 = Tidak, 0 = Netral |
 
 **[Buat tabel deskripsi fitur Anda di sini]**
 
