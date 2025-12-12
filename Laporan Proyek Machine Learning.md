@@ -3,12 +3,12 @@
 **Judul Proyek:**  
 [(Contoh: "Klasifikasi Penyakit Daun Menggunakan CNN", "Prediksi Harga Rumah dengan Machine Learning", "Analisis Sentimen Ulasan Produk")]
 
-**Nama Mahasiswa:** [Nama Lengkap]  
-**NIM:** [Nomor Induk Mahasiswa]  
-**Program Studi:** [Teknologi Informasi / Rekayasa Perangkat Lunak]  
-**Mata Kuliah:** [Nama Mata Kuliah]  
+**Nama Mahasiswa:** [Ilham Putra Arysila]  
+**NIM:** [233307051]  
+**Program Studi:** [Teknologi Informasi]  
+**Mata Kuliah:** [Data Science]  
 **Dosen Pengampu:** [Nama Dosen]  
-**Tahun Akademik:** [Tahun/Semester]
+**Tahun Akademik:** [2025/5B]
 **Link GitHub Repository:** [URL Repository]
 **Link Video Pembahasan:** [URL Repository]
 
