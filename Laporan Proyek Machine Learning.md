@@ -106,13 +106,36 @@ Jelaskan setiap fitur/kolom yang ada dalam dataset.
 **Contoh tabel:**
 | Nama Fitur | Tipe Data | Deskripsi | Contoh Nilai |
 |------------|-----------|-----------|--------------|
-| id | Integer | ID unik data | 1, 2, 3 |
-| age | Integer | Usia (tahun) | 25, 30, 45 |
-| income | Float | Pendapatan (juta) | 5.5, 10.2 |
-| category | Categorical | Kategori produk | A, B, C |
-| text | String | Teks ulasan | "Produk bagus..." |
-| image | Image | Citra 224x224 RGB | Array 224x224x3 |
-| label | Categorical | Label target | 0, 1 atau "positif", "negatif" |
+| having_IP_Address | Categorical | Menggunakan alamat IP atau nama domain  | 1 = Ya, -1 = Tidak, 0 = Netral |
+| URL_Length | Categorical | Menunjukkan panjang URL | 1 = Ya, -1 = Tidak, 0 = Netral |
+| Shortining_Service | Categorical | Menunjukkan apakah URL menggunakan layanan pemendek URL | 1 = Ya, -1 = Tidak, 0 = Netral |
+| having_At_Symbol | Categorical | Menunjukkan apakah simbol `@` ada dalam URL | 1 = Ya, -1 = Tidak, 0 = Netral |
+| double_slash_redirecting | Categorical | Menunjukkan apakah ada pengalihan ganda (misal, `//www.example.com`).  | 1 = Ya, -1 = Tidak, 0 = Netral |
+| Prefix_Suffix | Categorical | Menunjukkan apakah ada awalan atau akhiran yang dipisahkan oleh `-` dalam nama domain (misal, `login-bank.com`).  | 1 = Ya, -1 = Tidak, 0 = Netral |
+| having_Sub_Domain | Categorical | ==================================== | 1 = Ya, -1 = Tidak, 0 = Netral |
+| SSLfinal_State | Categorical | ==================================== | 1 = Ya, -1 = Tidak, 0 = Netral |
+| Domain_registeration_length | Categorical | ==================================== | 1 = Ya, -1 = Tidak, 0 = Netral |
+| Favicon | Categorical | ==================================== | 1 = Ya, -1 = Tidak, 0 = Netral |
+| port | Categorical | ==================================== | 1 = Ya, -1 = Tidak, 0 = Netral |
+| HTTPS_token | Categorical | ==================================== | 1 = Ya, -1 = Tidak, 0 = Netral |
+| Request_URL | Categorical | ==================================== | 1 = Ya, -1 = Tidak, 0 = Netral |
+| URL_of_Anchor | Categorical | ==================================== | 1 = Ya, -1 = Tidak, 0 = Netral |
+| Links_in_tags | Categorical | ==================================== | 1 = Ya, -1 = Tidak, 0 = Netral |
+| SFH | Categorical | ==================================== | 1 = Ya, -1 = Tidak, 0 = Netral |
+| Submitting_to_email | Categorical | ==================================== | 1 = Ya, -1 = Tidak, 0 = Netral |
+| Abnormal_URL | Categorical | ==================================== | 1 = Ya, -1 = Tidak, 0 = Netral |
+| Redirect | Categorical | ==================================== | 1 = Ya, -1 = Tidak, 0 = Netral |
+| on_mouseover | Categorical | ==================================== | 1 = Ya, -1 = Tidak, 0 = Netral |
+| RightClick | Categorical | ==================================== | 1 = Ya, -1 = Tidak, 0 = Netral |
+| popUpWidnow | Categorical | ==================================== | 1 = Ya, -1 = Tidak, 0 = Netral |
+| Iframe | Categorical | ==================================== | 1 = Ya, -1 = Tidak, 0 = Netral |
+| age_of_domain | Categorical | ==================================== | 1 = Ya, -1 = Tidak, 0 = Netral |
+| DNSRecord | Categorical | ==================================== | 1 = Ya, -1 = Tidak, 0 = Netral |
+| web_traffic | Categorical | ==================================== | 1 = Ya, -1 = Tidak, 0 = Netral |
+| Google_Index | Categorical | ==================================== | 1 = Ya, -1 = Tidak, 0 = Netral |
+| Links_pointing_to_page | Categorical | ==================================== | 1 = Ya, -1 = Tidak, 0 = Netral |
+| Statistical_report | Categorical | ==================================== | 1 = Ya, -1 = Tidak, 0 = Netral |
+| Result | Categorical | ==================================== | 1 = Ya, -1 = Tidak, 0 = Netral |
 
 **[Buat tabel deskripsi fitur Anda di sini]**
 
