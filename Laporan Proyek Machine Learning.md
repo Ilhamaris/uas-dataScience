@@ -1,7 +1,7 @@
 ## INFORMASI PROYEK
 
 **Judul Proyek:**  
-[(Contoh: "Klasifikasi Penyakit Daun Menggunakan CNN", "Prediksi Harga Rumah dengan Machine Learning", "Analisis Sentimen Ulasan Produk")]
+Klasifikasikan situs web sebagai situs phishing atau sah menggunakan model Machine Learning
 
 **Nama Mahasiswa:** [Ilham Putra Arysila]  
 **NIM:** [233307051]  
