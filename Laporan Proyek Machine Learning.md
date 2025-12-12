@@ -7,8 +7,8 @@
 **Program Studi:** Teknologi Informasi  
 **Mata Kuliah:** Data Science  
 **Dosen Pengampu:** Nama Dosen  
-**Tahun Akademik:** 2025/5B
-**Link GitHub Repository:** (https://github.com/Ilhamaris/uas-dataScience.git)
+**Tahun Akademik:** 2025/5B  
+**Link GitHub Repository:** (https://github.com/Ilhamaris/uas-dataScience.git)  
 **Link Video Pembahasan:** URL Repository
 
 ---
