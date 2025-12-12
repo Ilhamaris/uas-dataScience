@@ -1,18 +1,15 @@
 ## INFORMASI PROYEK
 
-**Judul Proyek:**  
-Klasifikasikan situs web sebagai situs phishing atau sah menggunakan model Machine Learning
+**Judul Proyek:** Klasifikasikan situs web sebagai situs phishing atau sah menggunakan model Machine Learning
 
-**Nama Mahasiswa:** [Ilham Putra Arysila]  
-**NIM:** [233307051]  
-**Program Studi:** [Teknologi Informasi]  
-**Mata Kuliah:** [Data Science]  
-**Dosen Pengampu:** [Nama Dosen]  
-**Tahun Akademik:** [2025/5B]
-
-**Link GitHub Repository:** [(https://github.com/Ilhamaris/uas-dataScience.git)]
-
-**Link Video Pembahasan:** [URL Repository]
+**Nama Mahasiswa:** Ilham Putra Arysila  
+**NIM:** 233307051  
+**Program Studi:** Teknologi Informasi  
+**Mata Kuliah:** Data Science  
+**Dosen Pengampu:** Nama Dosen  
+**Tahun Akademik:** 2025/5B
+**Link GitHub Repository:** (https://github.com/Ilhamaris/uas-dataScience.git)
+**Link Video Pembahasan:** URL Repository
 
 ---
 
