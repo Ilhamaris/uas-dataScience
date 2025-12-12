@@ -32,16 +32,9 @@ Pada proyek ini, mahasiswa diharapkan dapat:
 ## 2. PROJECT OVERVIEW
 
 ### 2.1 Latar Belakang
-**Isi bagian ini dengan:**
-- Mengapa proyek ini penting?
-- Permasalahan umum pada domain terkait (misal: kesehatan, pendidikan, keuangan, pertanian, NLP, computer vision, dll.)
-- Manfaat proyek untuk pengguna, bisnis, atau penelitian
-- Studi literatur atau referensi ilmiah (minimal 1–2 sumber wajib)
-
-**Contoh referensi (berformat APA/IEEE):**
-> Goodfellow, I., Bengio, Y., & Courville, A. (2016). *Deep Learning*. MIT Press.
-
-**[Jelaskan konteks dan latar belakang proyek]**
+Keamanan siber menjadi isu kritis karena pertumbuhan aktivitas digital yang semakin intens, terutama pada sektor keuangan, pendidikan, dan layanan publik. Serangan phishing terus meningkat setiap tahun dan menimbulkan kerugian besar, mulai dari pencurian data pribadi hingga akses ilegal ke akun finansial. Laporan oleh Verizon Data Breach Investigations Report (2023) menunjukkan bahwa phishing tetap menjadi salah satu metode serangan paling umum pada insiden pelanggaran data. Kondisi ini menunjukkan perlunya sistem otomatis yang mampu mengklasifikasikan situs web berbahaya secara cepat dan akurat.
+Pada praktiknya, pengguna internet seringkali kesulitan membedakan situs asli dan situs palsu karena tampilan visual yang semakin mirip, strategi rekayasa sosial (social engineering) yang makin canggih, serta kurangnya literasi digital. Penelitian sebelumnya seperti Abdelhamid et al. (2014) menunjukkan bahwa fitur URL, struktur halaman, dan perilaku jaringan dapat menjadi indikator penting untuk mendeteksi phishing, namun tanpa otomasi yang kuat, deteksi manual tidak realistis dilakukan oleh pengguna umum maupun institusi. Tantangan lain adalah tingginya dinamika teknik baru yang digunakan penyerang, sehingga diperlukan model yang adaptif dan berbasis data.
+Proyek klasifikasi phishing berbasis Machine Learning menawarkan manfaat strategis. Bagi pengguna, sistem ini dapat memberikan perlindungan real-time tanpa membutuhkan keahlian teknis. Bagi bisnis dan instansi, model ini mendukung peningkatan keamanan operasional, mengurangi risiko kebocoran data, dan menekan biaya penanganan insiden. Dari sisi penelitian, proyek ini memperkaya pengembangan metode deteksi ancaman berbasis data dan membuka peluang eksplorasi fitur-fitur baru yang lebih robust terhadap teknik phishing modern. Pendekatan ini memperkuat ekosistem cybersecurity yang lebih cerdas dan responsif terhadap ancaman siber masa kini.
 
 ## 3. BUSINESS UNDERSTANDING / PROBLEM UNDERSTANDING
 ### 3.1 Problem Statements
