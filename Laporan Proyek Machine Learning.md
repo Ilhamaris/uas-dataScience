@@ -32,11 +32,10 @@ Pada proyek ini, mahasiswa diharapkan dapat:
 ## 2. PROJECT OVERVIEW
 
 ### 2.1 Latar Belakang
-<p style="padding-left: 20px; text-indent: -20px;">
-   Keamanan siber menjadi isu kritis karena pertumbuhan aktivitas digital yang semakin intens, terutama pada sektor keuangan, pendidikan, dan layanan publik. Serangan phishing terus meningkat setiap tahun dan menimbulkan kerugian besar, mulai dari pencurian data pribadi hingga akses ilegal ke akun finansial. Laporan oleh Verizon Data Breach Investigations Report (2023) menunjukkan bahwa phishing tetap menjadi salah satu metode serangan paling umum pada insiden pelanggaran data. Kondisi ini menunjukkan perlunya sistem otomatis yang mampu mengklasifikasikan situs web berbahaya secara cepat dan akurat.
-   Pada praktiknya, pengguna internet seringkali kesulitan membedakan situs asli dan situs palsu karena tampilan visual yang semakin mirip, strategi rekayasa sosial (social engineering) yang makin canggih, serta kurangnya literasi digital. Penelitian sebelumnya seperti Abdelhamid et al. (2014) menunjukkan bahwa fitur URL, struktur halaman, dan perilaku jaringan dapat menjadi indikator penting untuk mendeteksi phishing, namun tanpa otomasi yang kuat, deteksi manual tidak realistis dilakukan oleh pengguna umum maupun institusi. Tantangan lain adalah tingginya dinamika teknik baru yang digunakan penyerang, sehingga diperlukan model yang adaptif dan berbasis data.
-   Proyek klasifikasi phishing berbasis Machine Learning menawarkan manfaat strategis. Bagi pengguna, sistem ini dapat memberikan perlindungan real-time tanpa membutuhkan keahlian teknis. Bagi bisnis dan instansi, model ini mendukung peningkatan keamanan operasional, mengurangi risiko kebocoran data, dan menekan biaya penanganan insiden. Dari sisi penelitian, proyek ini memperkaya pengembangan metode deteksi ancaman berbasis data dan membuka peluang eksplorasi fitur-fitur baru yang lebih robust terhadap teknik phishing modern. Pendekatan ini memperkuat ekosistem cybersecurity yang lebih cerdas dan responsif terhadap ancaman siber masa kini.
-</p>
+Keamanan siber menjadi isu kritis karena pertumbuhan aktivitas digital yang semakin intens, terutama pada sektor keuangan, pendidikan, dan layanan publik. Serangan phishing terus meningkat setiap tahun dan menimbulkan kerugian besar, mulai dari pencurian data pribadi hingga akses ilegal ke akun finansial. Laporan oleh Verizon Data Breach Investigations Report (2023) menunjukkan bahwa phishing tetap menjadi salah satu metode serangan paling umum pada insiden pelanggaran data. Kondisi ini menunjukkan perlunya sistem otomatis yang mampu mengklasifikasikan situs web berbahaya secara cepat dan akurat.
+Pada praktiknya, pengguna internet seringkali kesulitan membedakan situs asli dan situs palsu karena tampilan visual yang semakin mirip, strategi rekayasa sosial (social engineering) yang makin canggih, serta kurangnya literasi digital. Penelitian sebelumnya seperti Abdelhamid et al. (2014) menunjukkan bahwa fitur URL, struktur halaman, dan perilaku jaringan dapat menjadi indikator penting untuk mendeteksi phishing, namun tanpa otomasi yang kuat, deteksi manual tidak realistis dilakukan oleh pengguna umum maupun institusi. Tantangan lain adalah tingginya dinamika teknik baru yang digunakan penyerang, sehingga diperlukan model yang adaptif dan berbasis data.
+Proyek klasifikasi phishing berbasis Machine Learning menawarkan manfaat strategis. Bagi pengguna, sistem ini dapat memberikan perlindungan real-time tanpa membutuhkan keahlian teknis. Bagi bisnis dan instansi, model ini mendukung peningkatan keamanan operasional, mengurangi risiko kebocoran data, dan menekan biaya penanganan insiden. Dari sisi penelitian, proyek ini memperkaya pengembangan metode deteksi ancaman berbasis data dan membuka peluang eksplorasi fitur-fitur baru yang lebih robust terhadap teknik phishing modern. Pendekatan ini memperkuat ekosistem cybersecurity yang lebih cerdas dan responsif terhadap ancaman siber masa kini.
+
 ## 3. BUSINESS UNDERSTANDING / PROBLEM UNDERSTANDING
 ### 3.1 Problem Statements
 Tuliskan 2–4 pernyataan masalah yang jelas dan spesifik.
@@ -65,54 +64,18 @@ Tujuan harus spesifik, terukur, dan selaras dengan problem statement.
 Mahasiswa **WAJIB** menggunakan minimal **tiga model** dengan komposisi sebagai berikut:
 #### **Model 1 – Baseline Model**
 Model sederhana sebagai pembanding dasar.
-**Pilihan model:**
-- Linear Regression (untuk regresi)
-- Logistic Regression (untuk klasifikasi)
-- K-Nearest Neighbors (KNN)
-- Decision Tree
-- Naive Bayes
-
-**[Jelaskan model baseline yang Anda pilih dan alasannya]**
+**Menggunakan model Logistic Regression**
+Karena dataset ini adalah untuk deteksi phishing, yang merupakan masalah klasifikasi biner (mengklasifikasikan apakah situs web itu phishing atau bukan), model yang paling cocok adalah model logistic regression. Ini adalah algoritma klasifikasi yang banyak digunakan untuk masalah klasifikasi biner dan merupakan baseline yang bagus karena sederhana dan efektif.
 
 #### **Model 2 – Advanced / ML Model**
 Model machine learning yang lebih kompleks.
-**Pilihan model:**
-- Random Forest
-- Gradient Boosting (XGBoost, LightGBM, CatBoost)
-- Support Vector Machine (SVM)
-- Ensemble methods
-- Clustering (K-Means, DBSCAN) - untuk unsupervised
-- PCA / dimensionality reduction (untuk preprocessing)
-
-**[Jelaskan model advanced yang Anda pilih dan alasannya]**
+**Menggunakan model Random Forest**
+Random Forest adalah metode ensemble berbasis pohon keputusan yang sangat kuat untuk tugas klasifikasi. Random Forest menggabungkan banyak pohon keputusan untuk mengurangi overfitting dan meningkatkan akurasi secara signifikan dibandingkan dengan satu pohon keputusan. Untuk klasifikasi phishing yang kompleks, Random Forest memiliki akurasi dan ketahanannya yang tinggi
 
 #### **Model 3 – Deep Learning Model (WAJIB)**
 Model deep learning yang sesuai dengan jenis data.
-**Pilihan Implementasi (pilih salah satu sesuai dataset):**
-**A. Tabular Data:**
-- Multilayer Perceptron (MLP) / Neural Network
-- Minimum: 2 hidden layers
-- Contoh: prediksi harga, klasifikasi binary/multiclass
-
-**B. Image Data:**
-- CNN sederhana (minimum 2 convolutional layers) **ATAU**
-- Transfer Learning (ResNet, VGG, MobileNet, EfficientNet) - **recommended**
-- Contoh: klasifikasi gambar, object detection
-
-**C. Text Data:**
-- LSTM/GRU (minimum 1 layer) **ATAU**
-- Embedding + Dense layers **ATAU**
-- Pre-trained model (BERT, DistilBERT, Word2Vec)
-- Contoh: sentiment analysis, text classification
-
-**D. Time Series:**
-- LSTM/GRU untuk sequential prediction
-- Contoh: forecasting, anomaly detection
-
-**E. Recommender Systems:**
-- Neural Collaborative Filtering (NCF)
-- Autoencoder-based Collaborative Filtering
-- Deep Matrix Factorization
+**Menggunakan model Tabular Data: Multilayer Perceptron (MLP) / Neural Network**
+MLP, juga dikenal sebagai feedforward neural network, adalah arsitektur dasar deep learning yang sangat efektif untuk masalah klasifikasi pada data tabular. Dengan setidaknya 2 hidden layers, jaringan ini dapat mempelajari pola non-linear yang kompleks dalam data untuk membedakan antara situs phishing dan non-phishing. Ini akan bekerja dengan baik karena data Anda sudah dalam format feature yang terstruktur.
 
 **Minimum Requirements untuk Deep Learning:**
 - ✅ Model harus training minimal 10 epochs
@@ -125,21 +88,18 @@ Model deep learning yang sesuai dengan jenis data.
 - ❌ Model tidak di-train (hanya define arsitektur)
 - ❌ Tidak ada evaluasi pada test set
 
-**[Jelaskan model deep learning yang Anda pilih dan alasannya]**
-
 ---
 
 ## 4. DATA UNDERSTANDING
 ### 4.1 Informasi Dataset
-**Sumber Dataset:**  
-[Sebutkan sumber: Kaggle, UCI ML Repository, atau sumber lain dengan URL]
+**Sumber Dataset:** UCI ML Repository
 
 **Deskripsi Dataset:**
-- Jumlah baris (rows): [angka]
-- Jumlah kolom (columns/features): [angka]
-- Tipe data: [Tabular / Image / Text / Time Series / Audio / Video]
-- Ukuran dataset: [MB/GB]
-- Format file: [CSV / JSON / Images / TXT / etc.]
+- Jumlah baris (rows): 11055
+- Jumlah kolom (columns/features): 31
+- Tipe data: Tabular
+- Ukuran dataset: 738 KB
+- Format file: .arff
 
 ### 4.2 Deskripsi Fitur
 Jelaskan setiap fitur/kolom yang ada dalam dataset.
