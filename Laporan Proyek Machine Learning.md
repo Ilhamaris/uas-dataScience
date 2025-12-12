@@ -9,7 +9,7 @@ Klasifikasikan situs web sebagai situs phishing atau sah menggunakan model Machi
 **Mata Kuliah:** [Data Science]  
 **Dosen Pengampu:** [Nama Dosen]  
 **Tahun Akademik:** [2025/5B]
-**Link GitHub Repository:** [URL Repository]
+**Link GitHub Repository:** [(https://github.com/Ilhamaris/uas-dataScience.git)]
 **Link Video Pembahasan:** [URL Repository]
 
 ---
