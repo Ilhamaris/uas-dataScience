@@ -180,25 +180,109 @@ Secara keseluruhan, masalah duplikasi data adalah isu utama yang berhasil ditang
 Jadi, fokuslah pada Histogram, Boxplot, Heatmap Korelasi, Bar Plot (termasuk Class Distribution Plot), dan setelah melatih model, Confusion Matrix Heatmap.
 
 
-#### Visualisasi 1: [Judul Visualisasi]
+#### Visualisasi 1: Histogram
+D:\Python\CS2025\images\visualisasi_histogram.png
+
+**Insight:**  
+1.  **Distribution of `having_IP_Address`:**
+    *   Histogram ini menunjukkan distribusi apakah URL menggunakan alamat IP (`1`) atau nama domain (`-1`).
+    *   Terlihat bahwa ada sekitar 2500 URL yang tidak menggunakan alamat IP (nilai `-1`, menunjukkan nama domain), dan sekitar 3200 URL yang menggunakan alamat IP (nilai `1`).
+    *   Ini mengindikasikan bahwa penggunaan alamat IP sebagai bagian dari URL lebih sering terjadi dalam dataset ini dibandingkan URL yang tidak menggunakannya.
+
+2.  **Distribution of `URL_Length`:**
+    *   Histogram ini menggambarkan panjang URL.
+    *   Mayoritas URL memiliki panjang yang wajar (nilai `-1`), dengan jumlah lebih dari 4000.
+    *   Ada sekitar 1200 URL yang memiliki panjang mencurigakan (nilai `1`).
+    *   URL dengan nilai `0` (yang berarti sangat panjang atau sangat pendek) memiliki jumlah yang sangat sedikit, kurang dari 500. Ini menunjukkan bahwa URL dengan panjang yang 'mencurigakan' dalam arti ekstrem adalah kasus yang jarang.
+
+3.  **Distribution of `Shortining_Service`:**
+    *   Histogram ini menunjukkan apakah URL menggunakan layanan pemendek URL (nilai `-1`) atau tidak (nilai `1`).
+    *   Sebagian besar URL (lebih dari 4500) tidak menggunakan layanan pemendek (`1`).
+    *   Hanya sebagian kecil URL (kurang dari 1000) yang menggunakan layanan pemendek (`-1`). Ini menunjukkan bahwa penggunaan layanan pemendek URL cenderung jarang dalam dataset ini.
+
+4.  **Distribution of `Result`:**
+    *   Histogram ini menunjukkan distribusi variabel target, yaitu apakah URL tersebut adalah *phishing* (`-1`) atau *legitimate* (`1`).
+    *   Jumlah URL *phishing* (`-1`) sekitar 3000.
+    *   Jumlah URL *legitimate* (`1`) sedikit di bawah 3000.
+    *   Visualisasi ini mengkonfirmasi observasi sebelumnya bahwa dataset memiliki distribusi kelas yang relatif seimbang antara URL *phishing* dan *legitimate*, yang merupakan kondisi baik untuk pelatihan model tanpa memerlukan penanganan *class imbalance* yang intensif.
+
+#### Visualisasi 2: Box Plot
+
 [Insert gambar/plot]
 
 **Insight:**  
-[Jelaskan apa yang dapat dipelajari dari visualisasi ini]
+1.  **Box Plot of `URL_Length` by Result:**
+    *   Untuk kedua kategori (`Phishing` dan `Legitimate`), sebagian besar URL memiliki `URL_Length` bernilai `-1` (panjang URL wajar). Ini diindikasikan oleh garis tebal di sekitar `-1` pada kedua box plot.
+    *   Namun, ada *outlier* (titik-titik di luar "kumis" box plot) yang menunjukkan nilai `0` (panjang mencurigakan) dan `1` (panjang wajar) untuk kedua jenis URL. Kehadiran `0` (sangat panjang/pendek) pada kedua kategori menunjukkan bahwa panjang URL ekstrem bisa ditemukan di *phishing* maupun *legitimate*, meskipun mungkin lebih sering di salah satu kategori (yang tidak begitu jelas terlihat dari box plot ini saja).
+    *   Secara umum, fitur ini memiliki distribusi yang sangat terkonsentrasi pada `-1`, dengan sedikit variasi.
 
-#### Visualisasi 2: [Judul Visualisasi]
+2.  **Box Plot of `having_Sub_Domain` by Result:**
+    *   Untuk URL *phishing* (`-1`), distribusi `having_Sub_Domain` menunjukkan sebagian besar nilainya berada di sekitar `0` atau `-1`, yang berarti URL *phishing* cenderung memiliki sedikit *sub-domain* atau tidak ada sama sekali. Ada juga beberapa URL *phishing* dengan `1` (*sub-domain* banyak).
+    *   Untuk URL *legitimate* (`1`), sebagian besar nilainya terkonsentrasi pada `1` (memiliki banyak *sub-domain*), menunjukkan bahwa situs sah cenderung memiliki struktur *sub-domain* yang lebih kompleks. Mediannya lebih tinggi dibandingkan URL *phishing*.
+    *   Perbedaan distribusi ini menunjukkan bahwa `having_Sub_Domain` adalah indikator yang cukup baik untuk membedakan antara URL *phishing* dan *legitimate*.
+
+3.  **Box Plot of `age_of_domain` by Result:**
+    *   Kedua kategori (`Phishing` dan `Legitimate`) menunjukkan bahwa sebagian besar `age_of_domain` memiliki nilai `-1` atau `1`. Dalam konteks fitur ini, `-1` mungkin berarti domain baru dan `1` berarti domain tua.
+    *   Tampaknya mayoritas domain, baik *phishing* maupun *legitimate*, memiliki nilai `1` (domain tua). Hal ini mungkin karena representasi data dalam fitur ini cenderung biner dan tidak menunjukkan gradasi usia yang halus.
+    *   Perbedaan antara kedua kategori tidak terlalu mencolok dari visualisasi ini, menunjukkan bahwa fitur ini mungkin tidak terlalu kuat dalam membedakan kedua kelas secara langsung dalam bentuk box plot ini.
+
+4.  **Box Plot of `web_traffic` by Result:**
+    *   Untuk URL *phishing* (`-1`), distribusi `web_traffic` cenderung ke arah `0` dan `-1`. Ini berarti URL *phishing* umumnya memiliki peringkat lalu lintas web yang rendah (`-1`) atau netral (`0`).
+    *   Untuk URL *legitimate* (`1`), distribusi `web_traffic` cenderung ke arah `1`, menunjukkan bahwa situs sah umumnya memiliki peringkat lalu lintas web yang lebih tinggi.
+    *   Perbedaan yang jelas antara median dan rentang nilai untuk kedua kategori menunjukkan bahwa `web_traffic` adalah fitur yang informatif untuk membedakan URL *phishing* dari *legitimate*.
+
+#### Visualisasi 3: Confusion Matrix Heatmap
 
 [Insert gambar/plot]
 
 **Insight:**  
-[Jelaskan apa yang dapat dipelajari dari visualisasi ini]
+Matriks ini memiliki empat komponen utama:
 
-#### Visualisasi 3: [Judul Visualisasi]
+1.  **True Positive (TP)**: Jumlah prediksi positif yang benar. (Misal: Model memprediksi *Phishing*, dan aktualnya memang *Phishing*).
+2.  **True Negative (TN)**: Jumlah prediksi negatif yang benar. (Misal: Model memprediksi *Non-Phishing*, dan aktualnya memang *Non-Phishing*).
+3.  **False Positive (FP)**: Jumlah prediksi positif yang salah (Type I error). (Misal: Model memprediksi *Phishing*, tapi aktualnya *Non-Phishing*). Ini juga dikenal sebagai *false alarm*.
+4.  **False Negative (FN)**: Jumlah prediksi negatif yang salah (Type II error). (Misal: Model memprediksi *Non-Phishing*, tapi aktualnya *Phishing*). Ini juga dikenal sebagai *miss*.
 
-[Insert gambar/plot]
+Dalam visualisasi *heatmap* ini (mengacu pada `inline_data_5` yang menampilkan tiga *Confusion Matrix*), setiap matriks merepresentasikan kinerja satu model:
 
-**Insight:**  
-[Jelaskan apa yang dapat dipelajari dari visualisasi ini]
+#### 1. Confusion Matrix Logistic Regression
+*   **True Negative (Kiri Atas): 848**
+    *   Model dengan benar mengidentifikasi 848 URL sebagai *Non-Phishing*.
+*   **False Positive (Kanan Atas): 70**
+    *   Model salah mengidentifikasi 70 URL sebagai *Phishing*, padahal sebenarnya *Non-Phishing*.
+*   **False Negative (Kiri Bawah): 60**
+    *   Model salah mengidentifikasi 60 URL sebagai *Non-Phishing*, padahal sebenarnya *Phishing*.
+*   **True Positive (Kanan Bawah): 777**
+    *   Model dengan benar mengidentifikasi 777 URL sebagai *Phishing*.
+
+#### 2. Confusion Matrix Random Forest
+*   **True Negative (Kiri Atas): 880**
+    *   Model dengan benar mengidentifikasi 880 URL sebagai *Non-Phishing*.
+*   **False Positive (Kanan Atas): 38**
+    *   Model salah mengidentifikasi 38 URL sebagai *Phishing*, padahal sebenarnya *Non-Phishing*.
+*   **False Negative (Kiri Bawah): 46**
+    *   Model salah mengidentifikasi 46 URL sebagai *Non-Phishing*, padahal sebenarnya *Phishing*.
+*   **True Positive (Kanan Bawah): 791**
+    *   Model dengan benar mengidentifikasi 791 URL sebagai *Phishing*.
+
+#### 3. Confusion Matrix Multilayer Perceptron (MLP)
+*   **True Negative (Kiri Atas): 865**
+    *   Model dengan benar mengidentifikasi 865 URL sebagai *Non-Phishing*.
+*   **False Positive (Kanan Atas): 53**
+    *   Model salah mengidentifikasi 53 URL sebagai *Phishing*, padahal sebenarnya *Non-Phishing*.
+*   **False Negative (Kiri Bawah): 49**
+    *   Model salah mengidentifikasi 49 URL sebagai *Non-Phishing*, padahal sebenarnya *Phishing*.
+*   **True Positive (Kanan Bawah): 788**
+    *   Model dengan benar mengidentifikasi 788 URL sebagai *Phishing*.
+
+### Analisis Perbandingan:
+
+Dari ketiga matriks ini, kita dapat melihat bahwa:
+*   **Random Forest** memiliki jumlah *False Positive* (38) dan *False Negative* (46) yang paling rendah dibandingkan dua model lainnya. Ini menunjukkan bahwa Random Forest memiliki keseimbangan yang baik antara mengidentifikasi URL *phishing* dengan benar dan tidak salah mengklasifikasikan URL sah sebagai *phishing*.
+*   **Logistic Regression** memiliki *False Positive* (70) dan *False Negative* (60) yang sedikit lebih tinggi, menunjukkan kinerja yang sedikit di bawah Random Forest dan MLP.
+*   **MLP** berada di tengah, dengan *False Positive* (53) dan *False Negative* (49) yang lebih baik dari Logistic Regression tetapi sedikit lebih tinggi dari Random Forest.
+
+Secara keseluruhan, *Confusion Matrix Heatmap* ini sangat membantu dalam membandingkan secara visual di mana setiap model unggul atau kurang dalam tugas klasifikasi *phishing* vs *non-phishing*.
 
 
 
