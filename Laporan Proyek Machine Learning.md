@@ -140,14 +140,38 @@ Jelaskan setiap fitur/kolom yang ada dalam dataset.
 
 ### 4.3 Kondisi Data
 
-Jelaskan kondisi dan permasalahan data:
+## Summary of Identified Data Issues
 
-- **Missing Values:** [Ada/Tidak, berapa persen?]
-- **Duplicate Data:** [Ada/Tidak, berapa banyak?]
-- **Outliers:** [Ada/Tidak, pada fitur apa?]
-- **Imbalanced Data:** [Ada/Tidak, rasio kelas?]
-- **Noise:** [Jelaskan jika ada]
-- **Data Quality Issues:** [Jelaskan jika ada masalah lain]
+Setelah melakukan analisis komprehensif terhadap dataset, berikut adalah rangkuman masalah kualitas data yang teridentifikasi:
+
+1.  **Missing Values (Nilai Hilang)**:
+    *   **Status**: Tidak ada *missing values* yang terdeteksi dalam DataFrame awal (`df`) maupun setelah pemrosesan (`df_processed`). Ini menunjukkan kebersihan data yang baik dalam hal kelengkapan entri.
+
+2.  **Duplicate Data (Data Duplikat)**:
+    *   **Status**: Ditemukan **5206 baris duplikat** dalam DataFrame awal, yang merupakan sekitar 47% dari total baris. Ini adalah masalah signifikan yang berpotensi menyebabkan bias model dan pemborosan sumber daya.
+    *   **Penanganan**: Baris duplikat telah berhasil dihapus, menghasilkan `df_processed` dengan 5849 baris unik.
+
+3.  **Outliers (Pencilan) & Distribusi Fitur**:
+    *   **Status**: Karena sifat data yang sebagian besar kategorikal/ordinal (nilai `-1`, `0`, `1`), konsep *outlier* tradisional tidak berlaku. Namun, beberapa fitur menunjukkan distribusi nilai yang sangat miring atau adanya kategori minoritas yang signifikan:
+        *   **`URL_Length`**: Terdapat 96 entri dengan nilai `0` (panjang mencurigakan) yang relatif jarang dibandingkan kategori lainnya.
+        *   **`RightClick`**: Hanya 287 entri yang menonaktifkan klik kanan (`-1`), menunjukkan minoritas yang mungkin informatif.
+        *   **`Redirect`**: 771 entri menunjukkan adanya pengalihan (`1`), yang merupakan minoritas tetapi seringkali indikator *phishing*.
+        *   Fitur lain seperti `popUpWidnow`, `Iframe`, `Shortining_Service`, `Favicon`, `port`, `HTTPS_token`, `Abnormal_URL`, `on_mouseover`, `Statistical_report`, `Google_Index`, dan `Links_pointing_to_page` juga memiliki satu kategori yang jauh lebih jarang muncul.
+    *   **Implikasi**: Kategori minoritas ini mungkin bukan *error* data tetapi bisa menjadi indikator penting yang perlu diperhatikan oleh model.
+
+4.  **Class Imbalance (Ketidakseimbangan Kelas)**:
+    *   **Status**: Variabel target `Result` menunjukkan distribusi yang relatif seimbang:
+        *   Phishing (`-1`): 3019 sampel
+        *   Legitimate (`1`): 2830 sampel
+    *   **Implikasi**: Perbedaan ini tidak signifikan (sekitar 6.6%), sehingga tidak memerlukan penanganan *class imbalance* khusus pada tahap awal.
+
+5.  **Potensi Noise dan Masalah Kualitas Data Lainnya**:
+    *   **Sifat Data Kategorikal/Ordinal**: Interpretasi 'noise' lebih mengacu pada inkonsistensi nilai dalam kategori yang telah didefinisikan (meskipun saat ini tidak ada nilai di luar `-1, 0, 1`).
+    *   **Keterangan Fitur yang Samar**: Penjelasan beberapa fitur, seperti `URL_Length` dengan nilai `0` (sangat panjang atau sangat pendek), dapat menimbulkan ambiguitas atau potensi *noise* dalam interpretasi.
+    *   **Potensi Inkonsistensi Labeling**: Selalu ada risiko *false positive/negative* dalam label `Result` dalam dataset *phishing* yang kompleks.
+    *   **Ketergantungan Fitur**: Beberapa fitur mungkin berkorelasi tinggi, berpotensi memperkenalkan redundansi atau *noise* dalam model.
+
+Secara keseluruhan, masalah duplikasi data adalah isu utama yang berhasil ditangani. Dataset kini bersih dari nilai hilang dan memiliki distribusi kelas yang seimbang. Analisis mendalam terhadap fitur-fitur kategorikal telah mengidentifikasi beberapa kategori minoritas yang mungkin informatif, dan perlunya perhatian terhadap potensi *noise* yang berkaitan dengan interpretasi fitur dan konsistensi labeling.
 
 ### 4.4 Exploratory Data Analysis (EDA) - (**OPSIONAL**)
 
