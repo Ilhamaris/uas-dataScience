@@ -186,8 +186,8 @@ Jadi, fokuslah pada Histogram, Boxplot, Heatmap Korelasi, Bar Plot (termasuk Cla
 
 #### Visualisasi 2: Box Plot
 
-CS2025\images\visualisasi_boxplot1.png
-CS2025\images\visualisasi_boxplot2.png
+![Visualisasi 2: Box Plot](images\visualisasi_boxplot1.png)
+![Visualisasi 2: Box Plot](images\visualisasi_boxplot2.png)
 
 **Insight:**  
 1.  **Box Plot of `URL_Length` by Result:**
@@ -212,7 +212,7 @@ CS2025\images\visualisasi_boxplot2.png
 
 #### Visualisasi 3: Confusion Matrix Heatmap
 
-[Insert gambar/plot]
+![Visualisasi 3: Confusion Matrix Heatmap](images\visualisasi_heatmap.png)
 
 **Insight:**  
 Matriks ini memiliki empat komponen utama:
