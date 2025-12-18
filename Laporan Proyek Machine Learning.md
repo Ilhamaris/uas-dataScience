@@ -423,11 +423,11 @@ Berdasarkan analisis ketidakseimbangan kelas yang telah dilakukan sebelumnya, da
 ### 6.1 Model 1 — Baseline Model
 #### 6.1.1 Deskripsi Model
 
-**Nama Model:** [Nama model, misal: Logistic Regression]
+**Nama Model:** Logistic Regression  
 **Teori Singkat:**  
-[Jelaskan secara singkat bagaimana model ini bekerja]
+Logistic Regression adalah model klasifikasi yang bekerja dengan menghitung kombinasi linear dari setiap fitur input menggunakan bobot tertentu, kemudian hasil perhitungan tersebut dimasukkan ke dalam fungsi sigmoid untuk menghasilkan nilai probabilitas antara 0 dan 1. Probabilitas ini merepresentasikan kemungkinan suatu data termasuk ke dalam kelas tertentu, biasanya kelas positif. Selanjutnya, model membandingkan probabilitas tersebut dengan nilai ambang (threshold), umumnya 0,5, untuk menentukan label kelas akhir. Proses pembelajaran dilakukan dengan menyesuaikan bobot agar nilai kesalahan berbasis log loss (cross-entropy) menjadi minimum, sehingga probabilitas yang dihasilkan sesuai dengan distribusi data. Model ini sederhana, cepat, dan mudah diinterpretasikan, tetapi kurang efektif jika hubungan antara fitur dan kelas bersifat non-linear.  
 **Alasan Pemilihan:**  
-[Mengapa memilih model ini sebagai baseline?]
+Algoritma klasifikasi yang banyak digunakan untuk masalah klasifikasi biner dan merupakan baseline yang bagus karena sederhana dan efektif.  
 
 #### 6.1.2 Hyperparameter
 **Parameter yang digunakan:**
