@@ -61,7 +61,6 @@ Tujuan harus spesifik, terukur, dan selaras dengan problem statement.
 
 ### 3.3 Solution Approach
 
-Mahasiswa **WAJIB** menggunakan minimal **tiga model** dengan komposisi sebagai berikut:
 #### **Model 1 – Baseline Model**
 Model sederhana sebagai pembanding dasar.
 **Menggunakan model Logistic Regression**
@@ -181,7 +180,7 @@ Jadi, fokuslah pada Histogram, Boxplot, Heatmap Korelasi, Bar Plot (termasuk Cla
 
 
 #### Visualisasi 1: Histogram
-D:\Python\CS2025\images\visualisasi_histogram.png
+(images\visualisasi_histogram.png)
 
 **Insight:**  
 1.  **Distribution of `having_IP_Address`:**
@@ -208,7 +207,8 @@ D:\Python\CS2025\images\visualisasi_histogram.png
 
 #### Visualisasi 2: Box Plot
 
-[Insert gambar/plot]
+CS2025\images\visualisasi_boxplot1.png
+CS2025\images\visualisasi_boxplot2.png
 
 **Insight:**  
 1.  **Box Plot of `URL_Length` by Result:**

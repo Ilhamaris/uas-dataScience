@@ -3,10 +3,10 @@ Gunakaan dataset mini projek sebelumnya
 Sebelum mengumpulkan proyek, pastikan:
 ### **Laporan (PDF/Word/Markdown):**
 - [ ] Semua section terisi lengkap
-- [ ] Ada 3 model yang dijelaskan
-- [ ] Ada visualisasi EDA (min. 3)
+- [✅] Ada 3 model yang dijelaskan
+- [✅] Ada visualisasi EDA (min. 3)
 - [ ] Ada hasil evaluasi ketiga model
-- [ ] Ada link GitHub yang dapat diakses
+- [✅] Ada link GitHub yang dapat diakses
 - [ ] Ada link video penjeloasan proyek
 
 ### **GitHub Repository:**
