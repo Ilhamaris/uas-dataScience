@@ -6,7 +6,7 @@
 **NIM:** 233307051  
 **Program Studi:** Teknologi Informasi  
 **Mata Kuliah:** Data Science  
-**Dosen Pengampu:** Nama Dosen  
+**Dosen Pengampu:** Gus Nanang Syaifuddin, S.Kom., M.Kom.  
 **Tahun Akademik:** 2025/5B  
 **Link GitHub Repository:** (https://github.com/Ilhamaris/uas-dataScience.git)  
 **Link Video Pembahasan:** URL Repository
@@ -38,26 +38,18 @@ Proyek klasifikasi phishing berbasis Machine Learning menawarkan manfaat strateg
 
 ## 3. BUSINESS UNDERSTANDING / PROBLEM UNDERSTANDING  
 ### 3.1 Problem Statements  
-Tuliskan 2–4 pernyataan masalah yang jelas dan spesifik.
 
-**Contoh (universal):**
-1. Model perlu mampu memprediksi nilai target dengan akurasi tinggi
-2. Sistem harus dapat mengidentifikasi pola pada citra secara otomatis
-3. Dataset memiliki noise sehingga perlu preprocessing yang tepat
-4. Dibutuhkan model deep learning yang mampu belajar representasi fitur kompleks
-
-**[Tulis problem statements Anda di sini]**
+1.  **Dampak Duplikasi Data**: Kehadiran sejumlah besar baris duplikat (sekitar 47% dari dataset awal) berpotensi bias dalam pelatihan model dan menghasilkan metrik kinerja yang tidak akurat, sehingga perlu penanganan yang efektif.
+2.  **Identifikasi Phishing yang Akurat**: Dibutuhkan pengembangan model *machine learning* yang mampu mengklasifikasikan URL sebagai *phishing* atau *legitimate* dengan akurasi tinggi, serta meminimalkan *false positives* (URL sah diklasifikasikan sebagai *phishing*) dan *false negatives* (URL *phishing* diklasifikasikan sebagai sah) yang terbukti dari hasil *confusion matrix* model *baseline*.
+3.  **Optimalisasi Fitur**: Dengan banyaknya fitur yang tersedia (30 fitur asli ditambah fitur rekayasa baru), perlu diidentifikasi dan dimanfaatkan fitur-fitur yang paling berpengaruh dalam deteksi *phishing* untuk meningkatkan efisiensi dan interpretasi model.
+4.  **Keseimbangan Performa dan Interpretasi**: Model yang dikembangkan harus mampu memberikan kinerja prediksi yang tinggi tanpa mengorbankan interpretasi fitur-fitur kunci, mengingat pentingnya memahami indikator *phishing* yang spesifik.
 
 ### 3.2 Goals
 
-Tujuan harus spesifik, terukur, dan selaras dengan problem statement.
-**Contoh tujuan:**
-1. Membangun model ML untuk memprediksi variabel target dengan akurasi > 80%
-2. Mengukur performa tiga pendekatan model (baseline, advanced, deep learning)
-3. Menentukan model terbaik berdasarkan metrik evaluasi yang relevan
-4. Menghasilkan sistem yang dapat bekerja secara reproducible
-
-**[Tulis goals Anda di sini]**
+1.  **Menangani Duplikasi Data**: Berhasil menghapus semua entri duplikat dari dataset untuk memastikan integritas data dan mencegah pelatihan model yang bias.
+2.  **Mengevaluasi Kinerja Model**: Mengevaluasi kinerja berbagai model *machine learning* (Logistic Regression, Random Forest, MLP) menggunakan metrik seperti akurasi, presisi, *recall*, F1-score, dan *confusion matrix* untuk membandingkan efektivitasnya dalam deteksi *phishing*.
+3.  **Mengoptimalkan Fitur**: Melakukan rekayasa fitur baru (`Suspicious_Score`) dan seleksi fitur menggunakan Random Forest untuk mengidentifikasi set fitur yang paling prediktif dan efisien (misalnya, 15 fitur dengan kepentingan > 0.01) guna mengoptimalkan pelatihan dan kinerja model.
+4.  **Memilih Model Optimal**: Memilih model dengan kinerja terbaik berdasarkan metrik evaluasi, dengan prioritas pada model yang mencapai akurasi tinggi dan keseimbangan yang baik antara *false positives* dan *false negatives*, yang mampu membedakan URL *phishing* dari yang *legitimate*.
 
 ### 3.3 Solution Approach
 
