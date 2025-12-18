@@ -66,7 +66,7 @@ Random Forest adalah metode ensemble berbasis pohon keputusan yang sangat kuat u
 #### **Model 3 – Deep Learning Model (WAJIB)**
 Model deep learning yang sesuai dengan jenis data.
 **Menggunakan model Tabular Data: Multilayer Perceptron (MLP) / Neural Network**
-MLP, juga dikenal sebagai feedforward neural network, adalah arsitektur dasar deep learning yang sangat efektif untuk masalah klasifikasi pada data tabular. Dengan setidaknya 2 hidden layers, jaringan ini dapat mempelajari pola non-linear yang kompleks dalam data untuk membedakan antara situs phishing dan non-phishing. Ini akan bekerja dengan baik karena data Anda sudah dalam format feature yang terstruktur.
+MLP, juga dikenal sebagai feedforward neural network, adalah arsitektur dasar deep learning yang sangat efektif untuk masalah klasifikasi pada data tabular. Dengan setidaknya 2 hidden layers, jaringan ini dapat mempelajari pola non-linear yang kompleks dalam data untuk membedakan antara situs phishing dan non-phishing. Ini akan bekerja dengan baik karena data sudah dalam format feature yang terstruktur.
 
 ---
 
@@ -345,7 +345,7 @@ Dengan demikian, fokus pada pembuatan fitur yang bermakna domain dan *feature se
 
 ## Encoding dan Scaling
 
-Berdasarkan analisis dan pra-pemrosesan data yang telah dilakukan di notebook ini, fitur-fitur dalam dataset Anda sudah dalam format numerik (`int64`) dengan nilai-nilai yang terbatas pada `-1`, `0`, dan `1`. Ini berarti data sudah secara efektif di-*encode* secara numerik, baik sebagai biner (dua nilai) atau ordinal (tiga nilai dengan urutan). Oleh karena itu:
+Berdasarkan analisis dan pra-pemrosesan data yang telah dilakukan di notebook ini, fitur-fitur dalam dataset sudah dalam format numerik (`int64`) dengan nilai-nilai yang terbatas pada `-1`, `0`, dan `1`. Ini berarti data sudah secara efektif di-*encode* secara numerik, baik sebagai biner (dua nilai) atau ordinal (tiga nilai dengan urutan). Oleh karena itu:
 
 *   **Encoding (Label Encoding, One-Hot Encoding, Ordinal Encoding)**: Tidak diperlukan lagi karena fitur-fitur tersebut sudah memiliki representasi numerik. Misalnya, `having_IP_Address` dengan nilai `-1` dan `1` sudah seperti *label encoding* biner.
 *   **Scaling (Standardization, Normalization, MinMaxScaler)**: Untuk dataset ini, *scaling* kemungkinan besar tidak akan memberikan manfaat yang signifikan. Semua fitur berada dalam rentang yang sangat sempit (`-1` hingga `1`), sehingga varians dan skala antar fitur sudah relatif seragam. Model *tree-based* seperti Random Forest tidak sensitif terhadap *scaling*, dan untuk model seperti *Logistic Regression* atau MLP, rentang nilai yang seragam ini sudah cukup baik.
@@ -432,87 +432,146 @@ Algoritma klasifikasi yang banyak digunakan untuk masalah klasifikasi biner dan 
 #### 6.1.2 Hyperparameter
 **Parameter yang digunakan:**
 ```
-[Tuliskan parameter penting, contoh:]
-- C (regularization): 1.0
-- solver: 'lbfgs'
-- max_iter: 100
+- 'C': 1.0  
+- 'class_weight': None  
+- 'dual': False  
+- 'fit_intercept': True  
+- 'intercept_scaling': 1  
+- 'l1_ratio': None  
+- 'max_iter': 100  
+- 'multi_class': 'deprecated'  
+- 'n_jobs': None  
+- 'penalty': 'l2'  
+- 'random_state': 42  
+- 'solver': 'lbfgs'  
+- 'tol': 0.0001  
+- 'verbose': 0  
+- 'warm_start': False
 ```
 
 #### 6.1.3 Implementasi (Ringkas)
 ```python
-# Contoh kode (opsional, bisa dipindah ke GitHub)
 from sklearn.linear_model import LogisticRegression
 
-model_baseline = LogisticRegression(C=1.0, max_iter=100)
-model_baseline.fit(X_train, y_train)
-y_pred_baseline = model_baseline.predict(X_test)
+# 1. Inisialisasi model Logistic Regression
+model = LogisticRegression(
+    penalty='l2',
+    C=1.0,
+    solver='liblinear',
+    max_iter=100,
+    random_state=42
+)
+
+# 2. Training model using the globally defined X_train and y_train
+model.fit(X_train, y_train)
+
+# 3. Prediksi using the globally defined X_test
+y_pred = model.predict(X_test)
+
+print("Logistic Regression (Baseline) Model trained and predictions made.")
 ```
 
 #### 6.1.4 Hasil Awal
 
-**[Tuliskan hasil evaluasi awal, akan dijelaskan detail di Section 7]**
+Accuracy Logistic Regression (Baseline): 0.905982905982906
 
 ---
 
 ### 6.2 Model 2 — ML / Advanced Model
 #### 6.2.1 Deskripsi Model
 
-**Nama Model:** [Nama model, misal: Random Forest / XGBoost]
+**Nama Model:** Random Forest  
 **Teori Singkat:**  
-[Jelaskan bagaimana algoritma ini bekerja]
+Random Forest adalah metode ensemble berbasis pohon keputusan yang sangat kuat untuk tugas klasifikasi. Random Forest menggabungkan banyak pohon keputusan untuk mengurangi overfitting dan meningkatkan akurasi secara signifikan dibandingkan dengan satu pohon keputusan. 
 
 **Alasan Pemilihan:**  
-[Mengapa memilih model ini?]
+Untuk klasifikasi phishing yang kompleks, Random Forest memiliki akurasi dan ketahanannya yang tinggi
 
 **Keunggulan:**
-- [Sebutkan keunggulan]
+- Akurasi tinggi pada dataset kompleks  
+- Mengurangi overfitting dibanding pohon tunggal  
+- Relatif tahan terhadap noise dan outlier  
+- Dapat menangani missing values secara implisit  
+- Mendukung fitur numerik dan kategorikal  
+- Tidak memerlukan feature scaling  
+- Menyediakan feature importance  
+- Stabil karena berbasis ensemble
 
 **Kelemahan:**
-- [Sebutkan kelemahan]
+- Sulit diinterpretasikan (cenderung black box)  
+- Membutuhkan memori dan komputasi besar  
+- Waktu prediksi lebih lambat  
+- Kurang optimal untuk data sangat sparse  
+- Bias pada fitur dengan banyak level  
+- Tidak mampu melakukan ekstrapolasi
 
 #### 6.2.2 Hyperparameter
 
 **Parameter yang digunakan:**
 ```
-[Tuliskan parameter penting, contoh:]
-- n_estimators: 100
-- max_depth: 10
-- learning_rate: 0.1
-- min_samples_split: 2
+- 'bootstrap': True  
+- 'ccp_alpha': 0.0  
+- 'class_weight': None  
+- 'criterion': 'gini'  
+- 'max_depth': None  
+- 'max_features': 'sqrt'  
+- 'max_leaf_nodes': None  
+- 'max_samples': None  
+- 'min_impurity_decrease': 0.0  
+- 'min_samples_leaf': 1  
+- 'min_samples_split': 2  
+- 'min_weight_fraction_leaf': 0.0  
+- 'monotonic_cst': None  
+- 'n_estimators': 100  
+- 'n_jobs': None  
+- 'oob_score': False  
+- 'random_state': 42  
+- 'verbose': 0  
+- 'warm_start': False
 ```
 
 **Hyperparameter Tuning (jika dilakukan):**
-- Metode: [Grid Search / Random Search / Bayesian Optimization]
-- Best parameters: [...]
+- Metode: Grid Search  
+- Best parameters: ['max_depth': None, 'min_samples_leaf': 1, 'min_samples_split': 5, 'n_estimators': 50]
 
 #### 6.2.3 Implementasi (Ringkas)
 ```python
-# Contoh kode
 from sklearn.ensemble import RandomForestClassifier
 
-model_advanced = RandomForestClassifier(
-    n_estimators=100,
-    max_depth=10,
-    random_state=42
+# Implement the Random Forest model using the best parameters found by GridSearchCV
+# The best_params_rf variable is already available from the previous GridSearchCV cell.
+rf_model_tuned = RandomForestClassifier(
+    n_estimators=best_params_rf['n_estimators'],
+    max_depth=best_params_rf['max_depth'],
+    min_samples_leaf=best_params_rf['min_samples_leaf'],
+    min_samples_split=best_params_rf['min_samples_split'],
+    random_state=42 # Ensure reproducibility
 )
-model_advanced.fit(X_train, y_train)
-y_pred_advanced = model_advanced.predict(X_test)
+
+# Train the model
+print("Melatih model Random Forest (tuned) dengan parameter terbaik...")
+rf_model_tuned.fit(X_train, y_train)
+print("Model Random Forest (tuned) selesai dilatih.\n")
+
+# Make predictions on the test set
+y_pred_rf_tuned = rf_model_tuned.predict(X_test)
+
+print("Random Forest (tuned) model trained and predictions made.")
 ```
 
 #### 6.2.4 Hasil Model
 
-**[Tuliskan hasil evaluasi, akan dijelaskan detail di Section 7]**
-
+Akurasi Random Forest (tuned): 0.9402
 ---
 
 ### 6.3 Model 3 — Deep Learning Model (WAJIB)
 
 #### 6.3.1 Deskripsi Model
 
-**Nama Model:** [Nama arsitektur, misal: CNN / LSTM / MLP]
+**Nama Model:** Multilayer Perceptron (MLP)
 
 ** (Centang) Jenis Deep Learning: **
-- [ ] Multilayer Perceptron (MLP) - untuk tabular
+- [✅] Multilayer Perceptron (MLP) - untuk tabular
 - [ ] Convolutional Neural Network (CNN) - untuk image
 - [ ] Recurrent Neural Network (LSTM/GRU) - untuk sequential/text
 - [ ] Transfer Learning - untuk image
@@ -521,48 +580,50 @@ y_pred_advanced = model_advanced.predict(X_test)
 - [ ] Neural Collaborative Filtering - untuk recommender
 
 **Alasan Pemilihan:**  
-[Mengapa arsitektur ini cocok untuk dataset Anda?]
+Karena data sudah dalam format feature yang terstruktur.
 
 #### 6.3.2 Arsitektur Model
 
 **Deskripsi Layer:**
 
-[Jelaskan arsitektur secara detail atau buat tabel]
+Berikut adalah arsitektur model Multilayer Perceptron (MLP):
+1. Input Layer: shape (15,)
+2. Hidden Layer 1: 100 units, activation='relu'
+3. Hidden Layer 2: 50 units, activation='relu'
+4. Output Layer: 2 units, activation='softmax' (default for multi-class in MLPClassifier with Adam solver)
 
-**Contoh:**
-```
-1. Input Layer: shape (224, 224, 3)
-2. Conv2D: 32 filters, kernel (3,3), activation='relu'
-3. MaxPooling2D: pool size (2,2)
-4. Conv2D: 64 filters, kernel (3,3), activation='relu'
-5. MaxPooling2D: pool size (2,2)
-6. Flatten
-7. Dense: 128 units, activation='relu'
-8. Dropout: 0.5
-9. Dense: 10 units, activation='softmax'
-
-Total parameters: [jumlah]
-Trainable parameters: [jumlah]
+Total parameters: 6752
+Trainable parameters: 6752
 ```
 
 #### 6.3.3 Input & Preprocessing Khusus
 
-**Input shape:** [Sebutkan dimensi input]  
+**Input shape:** 15  
 **Preprocessing khusus untuk DL:**
-- [Sebutkan preprocessing khusus seperti normalisasi, augmentasi, dll.]
+Data input (X_train, X_test) sudah dalam format numerik (int64) dengan nilai antara -1, 0, dan 1 setelah proses Data Cleaning dan Feature Selection. Oleh karena itu, tidak ada encoding atau scaling tambahan yang diterapkan sebelum pelatihan model MLP, karena model tree-based dan MLP umumnya dapat bekerja dengan baik pada rentang nilai yang seragam ini tanpa memerlukan normalisasi atau standarisasi.
 
 #### 6.3.4 Hyperparameter
 
 **Training Configuration:**
 ```
-- Optimizer: Adam / SGD / RMSprop
-- Learning rate: [nilai]
-- Loss function: [categorical_crossentropy / mse / binary_crossentropy / etc.]
-- Metrics: [accuracy / mae / etc.]
-- Batch size: [nilai]
-- Epochs: [nilai]
-- Validation split: [nilai] atau menggunakan validation set terpisah
-- Callbacks: [EarlyStopping, ModelCheckpoint, ReduceLROnPlateau, etc.]
+Hyperparameter Model:
+
+- hidden_layer_sizes: (100, 50) - Dua hidden layer dengan 100 dan 50 neuron.  
+- activation: 'relu' - Fungsi aktivasi ReLU digunakan untuk hidden layer.  
+- solver: 'adam' - Optimizer yang digunakan adalah Adam.  
+- max_iter: 500 - Jumlah maksimum iterasi (epoch) pelatihan.  
+- random_state: 42 - Untuk reproducibility.  
+
+Training Configuration:
+
+- Optimizer: Adam  
+- Learning rate: Default (0.001) untuk solver 'adam'.  
+- Loss function: Log Loss (setara dengan Binary Cross-Entropy untuk klasifikasi - biner seperti ini).  
+- Metrics: Akurasi dihitung secara terpisah setelah pelatihan untuk evaluasi.  
+- Batch size: Default ('auto'), yang berarti min(200, n_samples). Untuk dataset - ini, sekitar 200.  
+- Epochs: 235 (model konvergen sebelum mencapai max_iter=500).  
+- Validation split: Tidak ada validation split internal; data dipecah menjadi training dan testing set secara terpisah (X_train, y_train untuk pelatihan, X_test, y_test untuk evaluasi).  
+- Callbacks: MLPClassifier dari scikit-learn tidak mendukung callbacks secara langsung seperti framework deep learning lainnya.
 ```
 
 #### 6.3.5 Implementasi (Ringkas)
@@ -598,29 +659,28 @@ history = model_dl.fit(
 
 #### 6.3.6 Training Process
 
-**Training Time:**  
-[Sebutkan waktu training total, misal: 15 menit]
+**Training Time:**
 
-**Computational Resource:**  
-[CPU / GPU, platform: Local / Google Colab / Kaggle]
+- **TensorFlow/Keras :** Proses pelatihan model MLP dengan TensorFlow/Keras membutuhkan waktu sekitar **1.95 detik**.
+- **Scikit-learn MLPClassifier :** Waktu pelatihan adalah **11.97 detik** dengan jumlah epoch yang dijalankan sebanyak 235.
+
+**Computational Resource:**
+
+Pelatihan dilakukan menggunakan **CPU** di platform **Google Colab** (runtime default).
 
 **Training History Visualization:**
 
-[Insert plot loss dan accuracy/metric per epoch]
-
-**Contoh visualisasi yang WAJIB:**
-1. **Training & Validation Loss** per epoch
-2. **Training & Validation Accuracy/Metric** per epoch
+![Training History Visualization](images\Training_History_Visualization.png)
 
 **Analisis Training:**
-- Apakah model mengalami overfitting? [Ya/Tidak, jelaskan]
-- Apakah model sudah converge? [Ya/Tidak, jelaskan]
-- Apakah perlu lebih banyak epoch? [Ya/Tidak, jelaskan]
+
+- **Apakah model mengalami overfitting?** Tidak. Seperti yang terlihat dari kedua plot (Loss dan Accuracy), kurva pelatihan (`Training Loss`/`Training Accuracy`) dan kurva validasi (`Validation Loss`/`Validation Accuracy`) bergerak relatif dekat satu sama lain. Tidak ada divergensi yang signifikan di mana *training loss* terus menurun sementara *validation loss* mulai naik, atau *training accuracy* terus meningkat sementara *validation accuracy* mendatar atau menurun. Ini menunjukkan bahwa model berhasil melakukan generalisasi dengan baik ke data yang tidak terlihat selama pelatihan.
+- **Apakah model sudah converge?** Ya. Pada plot *Loss*, terlihat bahwa baik *training loss* maupun *validation loss* menurun dengan cepat di awal epoch dan kemudian cenderung mendatar serta stabil setelah sekitar 20-30 epoch (untuk model TensorFlow/Keras). Hal ini mengindikasikan bahwa model telah menemukan set bobot yang optimal dan tidak lagi membuat kemajuan signifikan dalam mengurangi *error*. Penggunaan `EarlyStopping` dengan `patience=10` juga memastikan bahwa pelatihan berhenti begitu *validation loss* tidak membaik selama beberapa epoch, yang merupakan indikator konvergensi yang baik.
+- **Apakah perlu lebih banyak epoch?** Tidak. Mengingat model telah menunjukkan konvergensi dan `EarlyStopping` telah menghentikan pelatihan pada titik optimal (setelah 44 epoch, jauh sebelum `epochs=100` yang ditentukan dalam konfigurasi awal TensorFlow/Keras), menambahkan lebih banyak *epoch* kemungkinan besar tidak akan meningkatkan performa model. Sebaliknya, hal tersebut justru dapat meningkatkan risiko *overfitting* jika tidak ada mekanisme regulasi yang kuat, meskipun dalam kasus ini, model sudah stabil dan tidak menunjukkan tanda-tanda *overfitting*.
 
 #### 6.3.7 Model Summary
-```
-[Paste model.summary() output atau rangkuman arsitektur]
-```
+
+![Model Summary](images\Model_Summary.png)
 
 ---
 
@@ -628,130 +688,102 @@ history = model_dl.fit(
 
 ### 7.1 Metrik Evaluasi
 
-**Pilih metrik yang sesuai dengan jenis tugas:**
-
-#### **Untuk Klasifikasi:**
-- **Accuracy**: Proporsi prediksi yang benar
-- **Precision**: TP / (TP + FP)
-- **Recall**: TP / (TP + FN)
-- **F1-Score**: Harmonic mean dari precision dan recall
-- **ROC-AUC**: Area under ROC curve
-- **Confusion Matrix**: Visualisasi prediksi
-
-#### **Untuk Regresi:**
-- **MSE (Mean Squared Error)**: Rata-rata kuadrat error
-- **RMSE (Root Mean Squared Error)**: Akar dari MSE
-- **MAE (Mean Absolute Error)**: Rata-rata absolute error
-- **R² Score**: Koefisien determinasi
-- **MAPE (Mean Absolute Percentage Error)**: Error dalam persentase
-
-#### **Untuk NLP (Text Classification):**
-- **Accuracy**
-- **F1-Score** (terutama untuk imbalanced data)
-- **Precision & Recall**
-- **Perplexity** (untuk language models)
-
-#### **Untuk Computer Vision:**
-- **Accuracy**
-- **IoU (Intersection over Union)** - untuk object detection/segmentation
-- **Dice Coefficient** - untuk segmentation
-- **mAP (mean Average Precision)** - untuk object detection
-
-#### **Untuk Clustering:**
-- **Silhouette Score**
-- **Davies-Bouldin Index**
-- **Calinski-Harabasz Index**
-
-#### **Untuk Recommender System:**
-- **RMSE**
-- **Precision@K**
-- **Recall@K**
-- **NDCG (Normalized Discounted Cumulative Gain)**
-
-**[Pilih dan jelaskan metrik yang Anda gunakan]**
+Menggunakan Confusion matrix, berfungsi untuk mengevaluasi kinerja model klasifikasi dengan menunjukkan perbandingan antara label aktual dan hasil prediksi secara rinci. Matriks ini menampilkan jumlah prediksi benar dan salah untuk setiap kelas dalam bentuk True Positive, True Negative, False Positive, dan False Negative, sehingga kita tidak hanya melihat seberapa banyak prediksi yang benar, tetapi juga jenis kesalahan apa yang dibuat model. Dengan confusion matrix, kita dapat menilai apakah model cenderung salah mengklasifikasikan kelas tertentu, serta menjadi dasar perhitungan metrik lain seperti accuracy, precision, recall, dan F1-score, yang sangat penting terutama ketika data tidak seimbang
 
 ### 7.2 Hasil Evaluasi Model
 
-#### 7.2.1 Model 1 (Baseline)
+#### 7.2.1 Model 1 (Baseline) Logistic Regression
 
 **Metrik:**
 ```
-[Tuliskan hasil metrik, contoh:]
-- Accuracy: 0.75
-- Precision: 0.73
-- Recall: 0.76
-- F1-Score: 0.74
+- Accuracy: 0.9060
+- Precision: 0.9062
+- Recall: 0.9060
+- F1-Score: 0.9060
+- ROC-AUC: 0.9694
 ```
 
 **Confusion Matrix / Visualization:**  
-[Insert gambar jika ada]
+![LConfusion Matrix ogistic Regression](images\confusion_logistic_regression.png)
 
-#### 7.2.2 Model 2 (Advanced/ML)
+#### 7.2.2 Model 2 (Advanced/ML) Random Forest
 
 **Metrik:**
 ```
-- Accuracy: 0.85
-- Precision: 0.84
-- Recall: 0.86
-- F1-Score: 0.85
+- Accuracy: 0.9402
+- Precision: 0.9403
+- Recall: 0.9402
+- F1-Score: 0.9402
+- ROC-AUC: 0.9861
 ```
 
 **Confusion Matrix / Visualization:**  
-[Insert gambar jika ada]
+![Confusion Matrix Random Forest](images\confusion_random_forest.png)
 
 **Feature Importance (jika applicable):**  
 [Insert plot feature importance untuk tree-based models]
 
-#### 7.2.3 Model 3 (Deep Learning)
+#### 7.2.3 Model 3 (Deep Learning) Multilayer Perceptron MPL
 
 **Metrik:**
 ```
-- Accuracy: 0.89
-- Precision: 0.88
-- Recall: 0.90
-- F1-Score: 0.89
+- Accuracy: 0.9242
+- Precision: 0.9259
+- Recall: 0.9242
+- F1-Score: 0.9242
+- ROC-AUC: 0.9826
 ```
 
 **Confusion Matrix / Visualization:**  
-[Insert gambar jika ada]
+![Confusion Matrix Multilayer Perceptron MPL](images\confusion_Multilayer_Perceptron_MPL.png)
 
 **Training History:**  
 [Sudah diinsert di Section 6.3.6]
-
-**Test Set Predictions:**  
-[Opsional: tampilkan beberapa contoh prediksi]
 
 ### 7.3 Perbandingan Ketiga Model
 
 **Tabel Perbandingan:**
 
-| Model | Accuracy | Precision | Recall | F1-Score | Training Time | Inference Time |
-|-------|----------|-----------|--------|----------|---------------|----------------|
-| Baseline (Model 1) | 0.75 | 0.73 | 0.76 | 0.74 | 2s | 0.01s |
-| Advanced (Model 2) | 0.85 | 0.84 | 0.86 | 0.85 | 30s | 0.05s |
-| Deep Learning (Model 3) | 0.89 | 0.88 | 0.90 | 0.89 | 15min | 0.1s |
+| Model | Accuracy | Precision | Recall | F1-Score | ROC_AUC |
+|-------|----------|-----------|--------|----------|---------------|
+| Logistic Regression | 0.9060 | 0.9062 | 0.9060 | 0.9060 | 0.9694 |
+| Random Forest | 0.9402 | 0.9403 | 0.9402 | 0.9402 | 0.9861 |
+| Multilayer Perceptron MLP | 0.9242 | 0.9259 | 0.9242 | 0.9242 | 0.9826 |
 
 **Visualisasi Perbandingan:**  
-[Insert bar chart atau plot perbandingan metrik]
+![Visualisasi Perbandingan](images\Visualisasi_Perbandingan.png)
 
 ### 7.4 Analisis Hasil
 
 **Interpretasi:**
 
-1. **Model Terbaik:**  
-   [Sebutkan model mana yang terbaik dan mengapa]
+Berdasarkan hasil pelatihan dan evaluasi tiga model (Logistic Regression, Random Forest, dan Multilayer Perceptron), berikut adalah analisis detailnya:
 
-2. **Perbandingan dengan Baseline:**  
-   [Jelaskan peningkatan performa dari baseline ke model lainnya]
+1.  **Model Terbaik:**
+    Model **Random Forest (Tuned)** adalah yang terbaik. Ini ditunjukkan oleh metrik evaluasi yang superior:
+    *   **Akurasi Tertinggi**: 0.9402
+    *   **ROC-AUC Tertinggi**: 0.9861
+    *   **F1-Score Tertinggi**: 0.9402
+    *   **Kesalahan Klasifikasi Terendah**: Memiliki jumlah *False Positives* (58) dan *False Negatives* (47) terendah dari semua model. Ini sangat krusial dalam deteksi *phishing* karena meminimalkan risiko URL sah yang salah diklasifikasikan sebagai *phishing* (FP) dan, yang lebih penting, URL *phishing* yang terlewat (FN).
 
-3. **Trade-off:**  
-   [Jelaskan trade-off antara performa vs kompleksitas vs waktu training]
+2.  **Perbandingan dengan Baseline:**
+    *   **Peningkatan Signifikan dari Logistic Regression (Baseline)**: Akurasi Logistic Regression adalah 0.9060, sedangkan Random Forest (Tuned) mencapai 0.9402. Ini adalah peningkatan akurasi sekitar 3.42%. Demikian pula, ROC-AUC meningkat dari 0.9694 menjadi 0.9861. Perbaikan ini menunjukkan bahwa model yang lebih kompleks seperti Random Forest, dengan kemampuannya menangani hubungan non-linier dan interaksi fitur, mampu mengekstraksi pola yang lebih baik dari data dibandingkan model linear.
+    *   **Mengungguli MLP**: Random Forest (Tuned) juga sedikit lebih baik dari MLP (TensorFlow/Keras) yang memiliki akurasi 0.9242 dan ROC-AUC 0.9826. Meskipun MLP juga menunjukkan kinerja yang baik, Random Forest berhasil meminimalkan kedua jenis kesalahan (FP dan FN) secara lebih seimbang.
 
-4. **Error Analysis:**  
-   [Jelaskan jenis kesalahan yang sering terjadi, kasus yang sulit diprediksi]
+3.  **Trade-off:**
+    *   **Performa vs. Kompleksitas**: Random Forest (Tuned) memberikan performa terbaik, namun ini datang dengan kompleksitas model yang lebih tinggi dibandingkan Logistic Regression. Random Forest adalah *ensemble* dari banyak pohon keputusan, membuatnya lebih sulit diinterpretasikan secara langsung dibandingkan koefisien linear pada Logistic Regression. MLP, sebagai model *deep learning*, juga memiliki kompleksitas yang tinggi dengan banyak parameter dan *hidden layer*.
+    *   **Performa vs. Waktu Training**: Logistic Regression adalah yang tercepat untuk dilatih. Random Forest (Tuned) membutuhkan waktu lebih lama karena proses *GridSearchCV* untuk *tuning hyperparameter*, namun setelah *tuning*, waktu pelatihan model akhir masih relatif cepat. MLP (TensorFlow/Keras) memiliki waktu pelatihan yang lebih lama dibandingkan Logistic Regression tetapi lebih cepat dari Scikit-learn MLPClassifier yang tidak di-*tune* secara ekstensif.
+    *   **Memori/Sumber Daya**: Model Random Forest dan MLP cenderung membutuhkan lebih banyak memori dan sumber daya komputasi dibandingkan Logistic Regression, terutama selama pelatihan dan *inference* jika model sangat besar.
 
-5. **Overfitting/Underfitting:**  
-   [Analisis apakah model mengalami overfitting atau underfitting]
+4.  **Error Analysis:**
+    *   **False Positives (FP)**: Model MLP (TensorFlow/Keras) memiliki jumlah FP tertinggi (93), yang berarti model ini paling sering salah mengklasifikasikan URL sah sebagai *phishing*. Logistic Regression juga memiliki FP yang tinggi (91). Dalam konteks deteksi *phishing*, FP bisa mengganggu pengguna yang sah. Random Forest memiliki FP terendah (58).
+    *   **False Negatives (FN)**: Logistic Regression memiliki FN tertinggi (74), yang merupakan masalah serius karena berarti banyak URL *phishing* yang terlewat. MLP memiliki FN terendah (40), sedikit lebih rendah dari Random Forest (47). Meminimalkan FN sangat penting dalam deteksi *phishing* untuk mencegah ancaman keamanan yang sebenarnya.
+    *   **Kasus Sulit Diprediksi**: URL yang memiliki karakteristik campuran antara *phishing* dan *legitimate*, atau URL *phishing* yang sangat canggih dan menyerupai URL sah, kemungkinan besar menjadi sumber kesalahan ini. Misalnya, URL *phishing* yang menggunakan sertifikat SSL valid atau *domain* yang sudah lama terdaftar bisa jadi lebih sulit dideteksi.
+
+5.  **Overfitting/Underfitting:**
+    *   **Logistic Regression (Baseline)**: Ada kemungkinan model ini sedikit *underfitting* karena merupakan model yang sangat sederhana (linear) dan mungkin tidak mampu menangkap semua kompleksitas pola dalam data. Performa yang lebih rendah dibandingkan model lain mendukung hipotesis ini.
+    *   **Random Forest (Tuned)**: Berdasarkan evaluasi, model ini tidak menunjukkan tanda-tanda *overfitting* yang signifikan. Proses *tuning hyperparameter* dengan *GridSearchCV* dan validasi silang membantu menemukan parameter optimal yang menyeimbangkan *bias* dan *variance*. Akurasi yang tinggi pada data *test* menunjukkan kemampuan *generalisasi* yang baik.
+    *   **Multilayer Perceptron (TensorFlow/Keras)**: Analisis kurva *loss* pelatihan dan validasi menunjukkan bahwa model ini tidak mengalami *overfitting*. Kedua kurva bergerak beriringan dan stabil, serta penggunaan *EarlyStopping* efektif menghentikan pelatihan sebelum *validation loss* mulai meningkat, memastikan *generalisasi* yang baik.
 
 ---
 
