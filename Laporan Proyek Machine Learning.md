@@ -271,98 +271,151 @@ Secara keseluruhan, *Confusion Matrix Heatmap* ini sangat membantu dalam memband
 
 Bagian ini menjelaskan **semua** proses transformasi dan preprocessing data yang dilakukan.
 ### 5.1 Data Cleaning
-**Aktivitas:**
-- Handling missing values
-- Removing duplicates
-- Handling outliers
-- Data type conversion
-**Contoh:**
-```
-Missing Values:
-- Fitur 'age' memiliki 50 missing values (5% dari data)
-- Strategi: Imputasi dengan median karena distribusi skewed
-- Alasan: Median lebih robust terhadap outliers dibanding mean
-```
+### 1. Handling missing values
+* **Hasil**: Tidak ada nilai yang hilang yang terdeteksi dalam DataFrame awal (`df`).
+* **Alasan**: Pemeriksaan menggunakan `df.isnull().sum()` mengungkapkan bahwa semua kolom memiliki nol entri yang hilang, menunjukkan dataset lengkap tanpa perlu imputasi atau penghapusan baris/kolom karena data yang hilang.
 
-**[Jelaskan langkah-langkah data cleaning yang Anda lakukan]**
+### 2. Removing duplicates
+* **Proses**: Metode `df.duplicated().sum()` digunakan untuk mengidentifikasi baris duplikat dalam DataFrame asli.
+* **Hasil**: Sejumlah besar **5206 baris duplikat** ditemukan, yang merupakan sekitar **47%** dari total 11055 baris. Duplikat ini kemudian dihapus menggunakan `df.drop_duplicates().copy()`, menghasilkan DataFrame yang bersih (`df_cleaned`) dengan **5849 baris unik**.
+* **Alasan**: Menghapus duplikat sangat penting untuk mencegah pelatihan model yang bias, mengurangi pemborosan sumber daya komputasi, dan memastikan bahwa analisis statistik tidak dipengaruhi oleh pengamatan yang berlebihan.
 
+### 3. Handling outliers
+* **Pendekatan**: Mengingat sebagian besar fitur dalam dataset bersifat kategorikal atau ordinal dengan nilai utama `-1`, `0`, atau `1`, metode deteksi outlier statistik tradisional (misalnya, IQR untuk data kontinu) tidak dapat diterapkan secara langsung. Sebagai gantinya, analisis outlier berfokus pada identifikasi kategori 'minoritas' atau nilai yang jarang muncul dalam distribusi setiap fitur.
 
+* **Temuan**: Beberapa fitur menunjukkan kategori dengan kemunculan yang jauh lebih sedikit, yang dianggap berpotensi informatif daripada kesalahan data:
+
+* `URL_Length`: 96 entri memiliki nilai `0` (panjang yang mencurigakan), menunjukkan bahwa ini adalah kasus yang jarang tetapi berpotensi penting.
+* `RightClick`: Hanya 287 entri yang memiliki nilai `-1` (klik kanan dinonaktifkan), menunjukkan bahwa karakteristik minoritas ini dapat menjadi indikator yang kuat.
+* `Redirect`: 771 entri menunjukkan nilai `1` (adanya pengalihan), yang lebih jarang tetapi sering dikaitkan dengan URL berbahaya.
+
+* Fitur lain seperti `popUpWidnow`, `Iframe`, `Shortining_Service`, `Favicon`, `port`, `HTTPS_token`, `Abnormal_URL`, `on_mouseover`, `Statistical_report`, `Google_Index`, dan `Links_pointing_to_page` juga menunjukkan pola serupa dari kategori minoritas informatif.
+* **Alasan**: Pendekatan ini memungkinkan pemahaman tentang pola data yang tidak biasa yang relevan dengan domain masalah, di mana kejadian yang jarang mungkin menandakan karakteristik kritis dari upaya phishing.
+
+### 4. Data type conversion
+* **Eksekusi**: Semua kolom fitur, yang awalnya dimuat sebagai string byte (misalnya, `b'-1'`, `b'1'`), dikonversi menjadi bilangan bulat `int64`.
+
+* **Alasan**: Konversi ini diperlukan untuk memungkinkan analisis numerik dan pelatihan model yang tepat, karena algoritma pembelajaran mesin biasanya membutuhkan input numerik. Konversi tersebut melibatkan iterasi melalui setiap kolom dan menerapkan fungsi lambda untuk mendekode string byte ke UTF-8 dan kemudian mengonversinya menjadi bilangan bulat.
+* **Hasil**: DataFrame `df_cleaned` diubah menjadi `df_processed`, dengan semua fitur yang diketik dengan tepat sebagai `int64`, sehingga dataset siap untuk pemodelan.
 
 ### 5.2 Feature Engineering
-**Aktivitas:**
-- Creating new features
-- Feature extraction
-- Feature selection
-- Dimensionality reduction
+### 1. Pembuatan Fitur Baru: `Suspicious_Score`
 
-**[Jelaskan feature engineering yang Anda lakukan]**
+**Tujuan**: Membuat fitur agregat baru yang dapat menangkap "risiko *phishing* kumulatif" untuk setiap URL. Fitur ini dirancang untuk menggabungkan indikator-indikator aktivitas mencurigakan dari beberapa fitur yang sudah ada menjadi satu skor tunggal. Hal ini diharapkan dapat memberikan sinyal yang lebih kuat kepada model.
+
+**Metodologi**:
+*   Kolom baru bernama `Suspicious_Score` ditambahkan ke `df_processed` dan diinisialisasi dengan nilai `0`.
+*   Sebuah kamus `suspicious_conditions` didefinisikan, yang memetakan nama fitur ke daftar nilai yang dianggap mencurigakan (misalnya, `having_IP_Address: [1]` berarti URL yang memiliki alamat IP dianggap mencurigakan).
+*   Iterasi dilakukan melalui setiap fitur dalam kamus `suspicious_conditions`.
+*   Untuk setiap URL, jika nilai fitur cocok dengan salah satu kondisi mencurigakan yang ditentukan, nilai `1` ditambahkan ke `Suspicious_Score` URL tersebut. Dengan demikian, `Suspicious_Score` adalah jumlah dari semua indikator mencurigakan yang terpenuhi oleh suatu URL.
+
+**Alasan di Balik Pendekatan Ini**:
+*   **Agregasi Informasi**: Banyak fitur biner atau trinari mungkin memiliki dampak kecil secara individual, tetapi secara kolektif dapat memberikan sinyal yang kuat. `Suspicious_Score` mengagregasi sinyal-sinyal ini.
+*   **Interpretasi**: Skor tunggal lebih mudah diinterpretasikan sebagai tingkat risiko *phishing* secara umum.
+*   **Potensi Peningkatan Model**: Fitur ini berpotensi membantu model untuk lebih mudah mengidentifikasi pola yang melibatkan kombinasi beberapa atribut mencurigakan, yang mungkin sulit ditangkap oleh model hanya dengan melihat fitur-fitur individual.
+
+### 2. Pemilihan Fitur (Feature Selection) menggunakan Random Forest Classifier
+
+**Tujuan**: Mengurangi jumlah fitur yang digunakan untuk pelatihan model dengan hanya mempertahankan fitur-fitur yang paling informatif dan prediktif. Ini bertujuan untuk meningkatkan kinerja model (akurasi, kecepatan pelatihan) dan mengurangi *overfitting*.
+
+**Metodologi**:
+*   **Pemisahan Fitur dan Target**: Dataset `df_processed` dibagi menjadi fitur (`X`) dan variabel target (`y`, yaitu kolom 'Result').
+*   **Pelatihan Random Forest**: Sebuah model `RandomForestClassifier` diinisialisasi dan dilatih pada seluruh dataset `X` dan `y`.
+*   **Ekstraksi *Feature Importances***: Dari model Random Forest yang telah dilatih, nilai *feature importances* diekstrak. Random Forest secara intrinsik dapat mengukur seberapa besar kontribusi setiap fitur terhadap keputusan klasifikasi.
+*   **Pemeringkatan dan Visualisasi**: *Feature importances* diubah menjadi objek `pandas Series`, diurutkan secara menurun, dan 10 fitur teratas ditampilkan. Selain itu, sebuah *bar plot* dibuat untuk memvisualisasikan skor kepentingan semua fitur.
+*   **Pemilihan Fitur Berbasis Ambang Batas**: Fitur-fitur yang memiliki skor kepentingan di atas ambang batas yang ditentukan (dalam kasus ini, `0.01`) dipilih. Ambang batas ini dipilih setelah meninjau distribusi kepentingan fitur untuk memastikan bahwa fitur yang cukup relevan dipertahankan sambil membuang fitur yang kurang penting.
+*   **Pembentukan DataFrame Baru**: Sebuah DataFrame baru (`X_selected`) dibuat, yang hanya berisi fitur-fitur yang telah dipilih.
+
+**Alasan di Balik Pendekatan Ini**:
+*   **Mengurangi Kompleksitas Model**: Dengan lebih sedikit fitur, model cenderung lebih sederhana dan lebih cepat untuk dilatih dan dievaluasi.
+*   **Mencegah *Overfitting***: Fitur yang kurang informatif atau *noisy* dapat menyebabkan *overfitting*. Dengan menghilangkannya, model dapat belajar pola yang lebih umum.
+*   **Meningkatkan Interpretasi**: Fokus pada fitur-fitur penting dapat membantu dalam memahami faktor-faktor utama yang berkontribusi pada deteksi *phishing*.
+
+### 3. Mengapa Reduksi Dimensi Tradisional (seperti PCA) Tidak Diterapkan
+
+Reduksi dimensi seperti Principal Component Analysis (PCA) biasanya digunakan untuk mengurangi jumlah fitur dalam dataset dengan menciptakan kombinasi linier dari fitur asli. Namun, dalam konteks dataset ini, PCA atau metode serupa tidak diterapkan karena beberapa alasan:
+
+*   **Sifat Fitur Kategorikal/Ordinal**: Sebagian besar fitur dalam dataset ini bersifat kategorikal atau ordinal dengan nilai diskrit (`-1`, `0`, `1`). PCA bekerja paling baik dengan data kontinu di mana hubungan linier antar fitur lebih bermakna. Menggabungkan fitur-fitur kategorikal secara linier dapat menghasilkan *principal components* yang sulit diinterpretasikan dan mungkin tidak secara efektif menangkap hubungan non-linier yang ada.
+*   **Kehilangan Interpretasi**: Tujuan utama dari banyak model deteksi *phishing* adalah tidak hanya untuk membuat prediksi yang akurat tetapi juga untuk memahami *mengapa* suatu URL diklasifikasikan sebagai *phishing*. Fitur asli (misalnya, `having_IP_Address`, `SSLfinal_State`) memiliki makna domain yang jelas. PCA akan mengubah fitur-fitur ini menjadi komponen-komponen abstrak yang kehilangan interpretasi langsung, sehingga menyulitkan untuk menjelaskan hasil model.
+*   ***Feature Selection* Sudah Cukup Efektif**: Metode *feature selection* berbasis *tree-based model* seperti Random Forest secara efektif mengidentifikasi dan memilih fitur-fitur yang paling informatif tanpa mengubah sifat aslinya. Ini memungkinkan kita untuk mempertahankan interpretasi fitur sambil tetap mengurangi dimensi secara signifikan (dari 31 menjadi 15 fitur).
+
+Dengan demikian, fokus pada pembuatan fitur yang bermakna domain dan *feature selection* berbasis kepentingan telah menjadi strategi yang lebih sesuai untuk dataset ini.
 
 ### 5.3 Data Transformation
 
-**Untuk Data Tabular:**
-- Encoding (Label Encoding, One-Hot Encoding, Ordinal Encoding)
-- Scaling (Standardization, Normalization, MinMaxScaler)
+## Encoding dan Scaling
 
-**Untuk Data Text:**
-- Tokenization
-- Lowercasing
-- Removing punctuation/stopwords
-- Stemming/Lemmatization
-- Padding sequences
-- Word embedding (Word2Vec, GloVe, fastText)
+Berdasarkan analisis dan pra-pemrosesan data yang telah dilakukan di notebook ini, fitur-fitur dalam dataset Anda sudah dalam format numerik (`int64`) dengan nilai-nilai yang terbatas pada `-1`, `0`, dan `1`. Ini berarti data sudah secara efektif di-*encode* secara numerik, baik sebagai biner (dua nilai) atau ordinal (tiga nilai dengan urutan). Oleh karena itu:
 
-**Untuk Data Image:**
-- Resizing
-- Normalization (pixel values 0-1 atau -1 to 1)
-- Data augmentation (rotation, flip, zoom, brightness, etc.)
-- Color space conversion
-
-**Untuk Time Series:**
-- Creating time windows
-- Lag features
-- Rolling statistics
-- Differencing
-
-**[Jelaskan transformasi yang Anda lakukan]**
+*   **Encoding (Label Encoding, One-Hot Encoding, Ordinal Encoding)**: Tidak diperlukan lagi karena fitur-fitur tersebut sudah memiliki representasi numerik. Misalnya, `having_IP_Address` dengan nilai `-1` dan `1` sudah seperti *label encoding* biner.
+*   **Scaling (Standardization, Normalization, MinMaxScaler)**: Untuk dataset ini, *scaling* kemungkinan besar tidak akan memberikan manfaat yang signifikan. Semua fitur berada dalam rentang yang sangat sempit (`-1` hingga `1`), sehingga varians dan skala antar fitur sudah relatif seragam. Model *tree-based* seperti Random Forest tidak sensitif terhadap *scaling*, dan untuk model seperti *Logistic Regression* atau MLP, rentang nilai yang seragam ini sudah cukup baik.
 
 ### 5.4 Data Splitting
 
-**Strategi pembagian data:**
-```
-- Training set: [X]% ([jumlah] samples)
-- Validation set: [X]% ([jumlah] samples) - jika ada
-- Test set: [X]% ([jumlah] samples)
-```
-**Contoh:**
-```
-Menggunakan stratified split untuk mempertahankan distribusi kelas:
-- Training: 80% (8000 samples)
-- Test: 20% (2000 samples)
-- Random state: 42 untuk reproducibility
-```
+**Strategi Pembagian Data:**
 
-**[Jelaskan strategi splitting Anda dan alasannya]**
+*   **Training set**: 70% (4094 samples)
+*   **Test set**: 30% (1755 samples)
+*   **Random state**: 42 untuk reproducibility
 
+**Penjelasan dan Alasan Strategi Splitting:**
 
+Strategi pembagian data yang digunakan adalah `train_test_split` dari `sklearn.model_selection` dengan rasio 70% untuk *training set* dan 30% untuk *test set*. Fitur (`X`) dan variabel target (`y`) diambil dari `df_processed` yang telah bersih dari duplikat dan fitur-fiturnya sudah direkayasa serta diseleksi.
+
+Alasan di balik pilihan ini adalah sebagai berikut:
+
+1.  **Standard Practice**: Pembagian 70/30 atau 80/20 adalah rasio yang umum dan direkomendasikan dalam *machine learning* untuk dataset berukuran menengah. Ini memberikan cukup data bagi model untuk belajar pola (70%) sambil menyisakan porsi yang cukup besar untuk evaluasi yang tidak bias (30%).
+2.  **Reproducibility**: Penggunaan `random_state=42` memastikan bahwa setiap kali kode dijalankan, pembagian data akan selalu sama. Ini sangat penting untuk debugging, perbandingan model, dan memastikan hasil eksperimen dapat direproduksi.
+3.  **Class Distribution**: Berdasarkan analisis `Class Imbalance` sebelumnya, variabel target `Result` memiliki distribusi yang relatif seimbang (Phishing: 3019 sampel, Legitimate: 2830 sampel). Oleh karena itu, *stratified splitting* (yang memastikan proporsi kelas yang sama di *training* dan *test set*) tidak secara eksplisit diatur, namun dengan `test_size=0.3` dan `random_state` yang tetap, diharapkan distribusi kelas tetap terjaga dengan baik dalam subset data.
 
 ### 5.5 Data Balancing (jika diperlukan)
-**Teknik yang digunakan:**
-- SMOTE (Synthetic Minority Over-sampling Technique)
-- Random Undersampling
-- Class weights
-- Ensemble sampling
-
-**[Jelaskan jika Anda melakukan data balancing]**
+Berdasarkan analisis ketidakseimbangan kelas yang telah dilakukan sebelumnya, dataset ini tidak menunjukkan masalah class imbalance yang signifikan. Distribusi kelas antara URL phishing dan legitimate relatif seimbang (3019 vs 2830 sampel, sekitar 6.6% perbedaan). Oleh karena itu, tidak dibutuhkan teknik data balancing seperti SMOTE, Random Undersampling, Class weights, atau Ensemble sampling pada dataset ini.
 
 ### 5.6 Ringkasan Data Preparation
 
-**Per langkah, jelaskan:**
-1. **Apa** yang dilakukan
-**[Jelaskan ]**
-2. **Mengapa** penting
-**[Jelaskan Mengapa ?]**
-3. **Bagaimana** implementasinya
-**[Jelaskan Bagaimana]**
+### 1. Data Cleaning
+*   **Apa yang dilakukan**: Menangani *missing values*, menghapus data duplikat, dan menganalisis *outliers*.
+*   **Mengapa penting**: Menjamin integritas data, mencegah bias model, mengurangi pemborosan sumber daya, dan memastikan analisis statistik yang akurat.
+*   **Bagaimana implementasinya**: 
+    *   **Missing Values**: Dilakukan pengecekan menggunakan `df.isnull().sum()`. Hasilnya, tidak ditemukan *missing values*, sehingga tidak ada tindakan lebih lanjut yang diperlukan.
+    *   **Removing Duplicates**: Menggunakan `df.duplicated().sum()` untuk mengidentifikasi 5206 baris duplikat (sekitar 47%). Baris duplikat kemudian dihapus dengan `df.drop_duplicates().copy()` untuk menghasilkan `df_cleaned` dengan 5849 baris unik.
+    *   **Handling Outliers**: Karena fitur bersifat kategorikal/ordinal (-1, 0, 1), deteksi *outlier* tradisional tidak diterapkan. Fokus pada identifikasi kategori minoritas yang berpotensi informatif melalui `value_counts` untuk setiap fitur (misalnya, `URL_Length` dengan nilai 0, `RightClick` dengan -1, `Redirect` dengan 1).
+    *   **Data Type Conversion**: Semua kolom yang awalnya *byte strings* (misal, `b'-1'`) dikonversi ke tipe data `int64` menggunakan fungsi `apply` dengan `decode('utf-8')` dan `int()`. Ini penting agar data dapat diproses oleh algoritma *machine learning* yang memerlukan input numerik.
+
+### 2. Feature Engineering: `Suspicious_Score`
+*   **Apa yang dilakukan**: Membuat fitur baru bernama `Suspicious_Score` dengan menjumlahkan indikator aktivitas mencurigakan dari fitur-fitur yang sudah ada.
+*   **Mengapa penting**: Mengagregasi sinyal-sinyal mencurigakan yang mungkin lemah secara individual menjadi satu skor yang lebih kuat, meningkatkan interpretasi sebagai tingkat risiko *phishing*, dan berpotensi membantu model menangkap pola kompleks dengan lebih baik.
+*   **Bagaimana implementasinya**: Kolom `Suspicious_Score` diinisialisasi ke 0. Sebuah kamus `suspicious_conditions` mendefinisikan nilai-nilai mencurigakan untuk setiap fitur. Iterasi dilakukan untuk setiap fitur, menambahkan 1 ke `Suspicious_Score` jika nilai fitur memenuhi kondisi mencurigakan yang ditentukan.
+
+### 3. Feature Selection: Random Forest Classifier
+*   **Apa yang dilakukan**: Mengidentifikasi dan memilih fitur-fitur yang paling informatif dan prediktif menggunakan *feature importances* dari Random Forest.
+*   **Mengapa penting**: Mengurangi kompleksitas model, mencegah *overfitting*, meningkatkan kecepatan pelatihan, dan mempertahankan interpretasi fitur yang jelas.
+*   **Bagaimana implementasinya**: 
+    *   Dataset dibagi menjadi fitur (`X = df_processed.drop('Result', axis=1)`) dan target (`y = df_processed['Result']`).
+    *   Model `RandomForestClassifier` dilatih pada seluruh dataset untuk mendapatkan *feature importances*.
+    *   *Feature importances* diurutkan dan divisualisasikan. 
+    *   Fitur-fitur dengan skor kepentingan di atas ambang batas 0.01 dipilih, menghasilkan `X_selected` dengan 15 fitur (dari 31 fitur awal). Fitur `SSLfinal_State`, `URL_of_Anchor`, dan `Suspicious_Score` termasuk yang paling penting.
+
+### 4. Data Transformation: Encoding dan Scaling
+*   **Apa yang dilakukan**: Menentukan apakah *encoding* atau *scaling* diperlukan.
+*   **Mengapa penting**: Memastikan data dalam format yang tepat untuk model ML. *Encoding* mengubah data non-numerik menjadi numerik, sedangkan *scaling* menyamakan rentang nilai fitur.
+*   **Bagaimana implementasinya**: 
+    *   **Encoding**: Tidak diperlukan karena semua fitur sudah dalam format numerik (`int64`) dengan nilai diskrit (-1, 0, 1), yang sudah efektif sebagai *encoding* biner atau ordinal.
+    *   **Scaling**: Tidak diperlukan karena semua fitur berada dalam rentang yang sangat sempit (`-1` hingga `1`), sehingga varians dan skala sudah relatif seragam. Model *tree-based* juga tidak sensitif terhadap *scaling*.
+
+### 5. Data Splitting
+*   **Apa yang dilakukan**: Membagi dataset menjadi *training set* dan *testing set*.
+*   **Mengapa penting**: Untuk melatih model pada sebagian data (*training set*) dan mengevaluasi kinerja model secara tidak bias pada data yang belum pernah dilihat (*testing set*), memastikan generalisasi model yang baik.
+*   **Bagaimana implementasinya**: Menggunakan `train_test_split` dari `sklearn.model_selection`.
+    *   `X` dan `y` diambil dari fitur-fitur yang telah diseleksi (`X_selected`) dan variabel target (`df_processed['Result']`).
+    *   Rasio pembagian yang digunakan adalah 70% untuk *training set* (4094 sampel) dan 30% untuk *testing set* (1755 sampel).
+    *   `random_state=42` digunakan untuk memastikan *reproducibility* hasil.
+    *   *Stratified splitting* tidak secara eksplisit diatur karena distribusi kelas yang sudah seimbang.
+
+### 6. Data Balancing
+*   **Apa yang dilakukan**: Menganalisis kebutuhan akan teknik *data balancing*.
+*   **Mengapa penting**: Menghindari model yang bias terhadap kelas mayoritas dalam kasus *class imbalance*.
+*   **Bagaimana implementasinya**: Berdasarkan analisis `Class Imbalance` di awal, variabel target memiliki distribusi yang relatif seimbang (Phishing: 3019 sampel, Legitimate: 2830 sampel). Perbedaan yang kecil (sekitar 6.6%) ini tidak dianggap signifikan, sehingga **tidak diperlukan** teknik *data balancing* seperti SMOTE, Random Undersampling, *class weights*, atau *ensemble sampling*.
 
 ---
 
