@@ -180,7 +180,7 @@ Jadi, fokuslah pada Histogram, Boxplot, Heatmap Korelasi, Bar Plot (termasuk Cla
 
 
 #### Visualisasi 1: Histogram
-!(images\visualisasi_histogram.png)
+![](images\visualisasi_histogram.png)
 
 **Insight:**  
 1.  **Distribution of `having_IP_Address`:**
