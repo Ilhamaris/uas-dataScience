@@ -68,17 +68,6 @@ Model deep learning yang sesuai dengan jenis data.
 **Menggunakan model Tabular Data: Multilayer Perceptron (MLP) / Neural Network**
 MLP, juga dikenal sebagai feedforward neural network, adalah arsitektur dasar deep learning yang sangat efektif untuk masalah klasifikasi pada data tabular. Dengan setidaknya 2 hidden layers, jaringan ini dapat mempelajari pola non-linear yang kompleks dalam data untuk membedakan antara situs phishing dan non-phishing. Ini akan bekerja dengan baik karena data Anda sudah dalam format feature yang terstruktur.
 
-**Minimum Requirements untuk Deep Learning:**
-- ✅ Model harus training minimal 10 epochs
-- ✅ Harus ada plot loss dan accuracy/metric per epoch
-- ✅ Harus ada hasil prediksi pada test set
-- ✅ Training time dicatat (untuk dokumentasi)
-
-**Tidak Diperbolehkan:**
-- ❌ Copy-paste kode tanpa pemahaman
-- ❌ Model tidak di-train (hanya define arsitektur)
-- ❌ Tidak ada evaluasi pada test set
-
 ---
 
 ## 4. DATA UNDERSTANDING
@@ -130,8 +119,6 @@ Jelaskan setiap fitur/kolom yang ada dalam dataset.
 | Result | Categorical | Ini adalah variabel target, yang mengindikasikan apakah URL tersebut adalah *phishing* (`1` atau `-1`) atau tidak (`0` atau `1`) | 1 = Ya, -1 = Tidak, 0 = Netral |
 
 ### 4.3 Kondisi Data
-
-## Summary of Identified Data Issues
 
 Setelah melakukan analisis komprehensif terhadap dataset, berikut adalah rangkuman masalah kualitas data yang teridentifikasi:
 
