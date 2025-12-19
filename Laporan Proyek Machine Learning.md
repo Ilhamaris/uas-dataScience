@@ -571,7 +571,7 @@ Akurasi Random Forest (tuned): 0.9402
 **Nama Model:** Multilayer Perceptron (MLP)
 
 ** (Centang) Jenis Deep Learning: **
-- [✅] Multilayer Perceptron (MLP) - untuk tabular
+- [x] Multilayer Perceptron (MLP) - untuk tabular
 - [ ] Convolutional Neural Network (CNN) - untuk image
 - [ ] Recurrent Neural Network (LSTM/GRU) - untuk sequential/text
 - [ ] Transfer Learning - untuk image
@@ -791,33 +791,48 @@ Berdasarkan hasil pelatihan dan evaluasi tiga model (Logistic Regression, Random
 
 ### 8.1 Kesimpulan Utama
 
-**Model Terbaik:**  
-[Sebutkan model terbaik berdasarkan evaluasi]
+**Model Terbaik:**
+Model **Random Forest (Tuned)** adalah model terbaik yang berhasil dikembangkan dalam proyek ini.
 
-**Alasan:**  
-[Jelaskan mengapa model tersebut lebih unggul]
+**Alasan:**
+Model Random Forest (Tuned) unggul karena mencapai metrik evaluasi tertinggi di antara ketiga model yang dibandingkan:
+*   **Akurasi Tertinggi**: 0.9402
+*   **ROC-AUC Tertinggi**: 0.9861
+*   **F1-Score Tertinggi**: 0.9402
+*   Model ini juga menunjukkan keseimbangan terbaik dalam meminimalkan kedua jenis kesalahan, yaitu *False Positives* (58) dan *False Negatives* (47), yang sangat penting dalam konteks deteksi *phishing*.
 
-**Pencapaian Goals:**  
-[Apakah goals di Section 3.2 tercapai? Jelaskan]
+**Pencapaian Goals:**
+Goals yang ditetapkan di Section 3.2 telah berhasil dicapai:
+1.  **Menangani Duplikasi Data**: Duplikasi data yang signifikan (sekitar 47%) telah berhasil dihapus, menghasilkan dataset yang bersih dan unik.
+2.  **Mengevaluasi Kinerja Model**: Tiga model *machine learning* (Logistic Regression, Random Forest, MLP) telah dievaluasi menggunakan metrik akurasi, presisi, *recall*, F1-score, ROC-AUC, dan *confusion matrix*.
+3.  **Mengoptimalkan Fitur**: Fitur baru (`Suspicious_Score`) telah direkayasa, dan seleksi fitur menggunakan Random Forest berhasil mengidentifikasi 15 fitur paling prediktif.
+4.  **Memilih Model Optimal**: Model Random Forest (Tuned) telah dipilih sebagai model optimal berdasarkan kinerja terbaiknya dalam membedakan URL *phishing* dari yang *legitimate*.
 
 ### 8.2 Key Insights
 
 **Insight dari Data:**
-- [Insight 1]
-- [Insight 2]
-- [Insight 3]
+-   **Data Cleaning Krusial**: Deteksi dan penghapusan duplikasi data (sekitar 47%) adalah langkah terpenting dalam *data preparation* untuk memastikan integritās data dan mencegah bias model.
+-   **Sifat Data Kategorikal/Ordinal**: Sebagian besar fitur bersifat kategorikal/ordinal (`-1`, `0`, `1`), sehingga deteksi *outlier* tradisional tidak relevan. Namun, kategori minoritas dalam fitur-fitur seperti `URL_Length` atau `RightClick` terbukti sangat informatif dan memiliki potensi prediktif yang tinggi.
+-   **Class Balance yang Baik**: Dataset menunjukkan distribusi kelas yang relatif seimbang untuk variabel target (`Result`), sehingga tidak diperlukan teknik *data balancing* khusus.
+-   **Fitur Rekayasa dan Seleksi Efektif**: Pembuatan fitur `Suspicious_Score` dan seleksi fitur berbasis Random Forest secara signifikan meningkatkan kualitas fitur yang digunakan untuk pemodelan, dengan fitur terkait SSL/HTTPS dan *anchor* menjadi yang paling penting.
 
 **Insight dari Modeling:**
-- [Insight 1]
-- [Insight 2]
+-   **Superioritas Model Ensemble**: Random Forest menunjukkan performa yang jauh lebih baik dibandingkan model linear (Logistic Regression) dan sedikit lebih baik dari model *deep learning* (MLP), membuktikan kemampuannya dalam menangani kompleksitas dan interaksi antar fitur.
+-   **Trade-off Error**: Meskipun MLP memiliki *False Negatives* yang sedikit lebih rendah, Random Forest berhasil menyeimbangkan *False Positives* dan *False Negatives* dengan lebih baik, yang krusial untuk aplikasi deteksi *phishing* di mana kedua jenis kesalahan memiliki konsekuensi yang signifikan.
+-   **Konvergensi Model Deep Learning**: Model MLP yang dilatih dengan TensorFlow/Keras menunjukkan konvergensi yang baik tanpa *overfitting* yang signifikan, berkat penggunaan *EarlyStopping* dan arsitektur yang sesuai.
 
 ### 8.3 Kontribusi Proyek
 
-**Manfaat praktis:**  
-[Jelaskan bagaimana proyek ini dapat digunakan di dunia nyata]
+**Manfaat praktis:**
+Proyek ini memberikan kontribusi signifikan dalam upaya deteksi *phishing* dengan mengembangkan model *machine learning* yang efektif. Model terbaik, Random Forest (Tuned), dapat diimplementasikan sebagai komponen kunci dalam sistem keamanan siber, seperti *browser extension*, *email filter*, atau *website scanner*, untuk secara proaktif mengidentifikasi dan memblokir URL berbahaya. Hal ini akan membantu melindungi pengguna dari penipuan finansial, pencurian data pribadi, dan serangan siber lainnya, sehingga menciptakan lingkungan *online* yang lebih aman.
 
-**Pembelajaran yang didapat:**  
-[Jelaskan apa yang Anda pelajari dari proyek ini]
+**Pembelajaran yang didapat:**
+Dari proyek ini, saya mendapatkan pembelajaran berharga mengenai seluruh siklus hidup *data science*:
+-   Pentingnya *data cleaning* yang cermat, terutama dalam menangani data duplikat yang dapat bias pada pelatihan model.
+-   Efektivitas *feature engineering* dan *feature selection* dalam mengekstrak informasi berharga dari data kategorikal/ordinal dan meningkatkan kekuatan prediktif model.
+-   Pemahaman mendalam tentang perbandingan kinerja berbagai algoritma *machine learning*, dari model linear sederhana hingga *ensemble method* dan *deep learning*, serta *trade-off* antara performa, kompleksitas, dan sumber daya komputasi.
+-   Kemampuan untuk melakukan analisis kesalahan yang komprehensif menggunakan *confusion matrix* untuk memahami kekuatan dan kelemahan masing-masing model dalam konteks masalah spesifik (misalnya, konsekuensi *false positives* dan *false negatives* dalam deteksi *phishing*).
+-   Praktik terbaik dalam *hyperparameter tuning* dan penggunaan *callbacks* (seperti *EarlyStopping*) untuk mengoptimalkan pelatihan model dan mencegah *overfitting*.
 
 ---
 
@@ -828,24 +843,24 @@ Saran pengembangan untuk proyek selanjutnya:
 
 **Data:**
 - [ ] Mengumpulkan lebih banyak data
-- [ ] Menambah variasi data
-- [ ] Feature engineering lebih lanjut
+- [x] Menambah variasi data
+- [x] Feature engineering lebih lanjut
 
 **Model:**
-- [ ] Mencoba arsitektur DL yang lebih kompleks
-- [ ] Hyperparameter tuning lebih ekstensif
-- [ ] Ensemble methods (combining models)
+- [x] Mencoba arsitektur DL yang lebih kompleks
+- [x] Hyperparameter tuning lebih ekstensif
+- [x] Ensemble methods (combining models)
 - [ ] Transfer learning dengan model yang lebih besar
 
 **Deployment:**
-- [ ] Membuat API (Flask/FastAPI)
-- [ ] Membuat web application (Streamlit/Gradio)
+- [x] Membuat API (Flask/FastAPI)
+- [x] Membuat web application (Streamlit/Gradio)
 - [ ] Containerization dengan Docker
 - [ ] Deploy ke cloud (Heroku, GCP, AWS)
 
 **Optimization:**
 - [ ] Model compression (pruning, quantization)
-- [ ] Improving inference speed
+- [x] Improving inference speed
 - [ ] Reducing model size
 
 ---
@@ -854,7 +869,7 @@ Saran pengembangan untuk proyek selanjutnya:
 
 ### 10.1 GitHub Repository
 
-**Link Repository:** [URL GitHub Anda]
+**Link Repository:** [https://github.com/Ilhamaris/uas-dataScience.git]
 
 **Repository harus berisi:**
 - ✅ Notebook Jupyter/Colab dengan hasil running
@@ -866,7 +881,7 @@ Saran pengembangan untuk proyek selanjutnya:
 
 ### 10.2 Environment & Dependencies
 
-**Python Version:** [3.8 / 3.9 / 3.10 / 3.11]
+**Python Version:** `3.11`
 
 **Main Libraries & Versions:**
 ```
@@ -875,16 +890,6 @@ pandas==2.0.3
 scikit-learn==1.3.0
 matplotlib==3.7.2
 seaborn==0.12.2
-
-# Deep Learning Framework (pilih salah satu)
-tensorflow==2.14.0  # atau
-torch==2.1.0        # PyTorch
-
-# Additional libraries (sesuaikan)
-xgboost==1.7.6
-lightgbm==4.0.0
-opencv-python==4.8.0  # untuk computer vision
-nltk==3.8.1           # untuk NLP
-transformers==4.30.0  # untuk BERT, dll
-
+tensorflow==2.14.0
+scipy==1.11.1 # for .arff file loading
 ```
