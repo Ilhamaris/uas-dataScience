@@ -37,7 +37,7 @@ project/
 ├── data/                   # Dataset (tidak di-commit, download manual)
 │
 ├── notebooks/              # Jupyter notebooks
-│   └── ML_Project.ipynb
+│   └── uasDataScience.ipynb
 │
 ├── src/                    # Source code
 │   
