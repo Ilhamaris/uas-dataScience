@@ -5,14 +5,14 @@ Sebelum mengumpulkan proyek, pastikan:
 - [x] Semua section terisi lengkap
 - [x] Ada 3 model yang dijelaskan
 - [x] Ada visualisasi EDA (min. 3)
-- [x ] Ada hasil evaluasi ketiga model
+- [x] Ada hasil evaluasi ketiga model
 - [x] Ada link GitHub yang dapat diakses
 - [x] Ada link video penjeloasan proyek
 
 ### **GitHub Repository:**
 - [x] Kode dapat dijalankan (tested)
-- [ ] Ada requirements.txt atau environment.yml
-- [ ] Ada  README.md dengan cara menjalankan
+- [x] Ada requirements.txt atau environment.yml
+- [x] Ada  README.md dengan cara menjalankan
 - [x] Folder terstruktur (src/, data/, models/, notebooks/)
 - [x] Ada file .gitignore (jangan upload data besar)
 - [x] Repository bersifat PUBLIC
@@ -20,5 +20,5 @@ Sebelum mengumpulkan proyek, pastikan:
 ### **Kode:**
 - [x] Model deep learning berhasil training
 - [x] Ada print/log hasil evaluasi
-- [ ] Kode ada komentar pada bagian penting
-- [ ] Tidak ada hardcoded path (gunakan relative path)
+- [x] Kode ada komentar pada bagian penting
+- [x] Tidak ada hardcoded path (gunakan relative path)

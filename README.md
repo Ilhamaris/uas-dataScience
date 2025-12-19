@@ -4,7 +4,7 @@
 ## 👤 Informasi
 - **Nama:** [Ilham Putra Arysila]  
 - **Repo:** [(https://github.com/Ilhamaris/uas-dataScience.git)]  
-- **Video:** [...]  
+- **Video:** (https://drive.google.com/file/d/11aDbsn1mpXo48X3YdO5JRySOdUwew9b2/view?usp=sharing)  
 
 ---
 
@@ -184,10 +184,27 @@ Model Random Forest (Tuned) unggul karena mencapai metrik evaluasi tertinggi di 
 ---
 
 # 8. 🔮 Future Work
-- [ ] Tambah data  
-- [ ] Tuning model  
-- [ ] Coba arsitektur DL lain  
-- [ ] Deployment  
+**Data:**
+- [ ] Mengumpulkan lebih banyak data
+- [x] Menambah variasi data
+- [x] Feature engineering lebih lanjut
+
+**Model:**
+- [x] Mencoba arsitektur DL yang lebih kompleks
+- [x] Hyperparameter tuning lebih ekstensif
+- [x] Ensemble methods (combining models)
+- [ ] Transfer learning dengan model yang lebih besar
+
+**Deployment:**
+- [x] Membuat API (Flask/FastAPI)
+- [x] Membuat web application (Streamlit/Gradio)
+- [ ] Containerization dengan Docker
+- [ ] Deploy ke cloud (Heroku, GCP, AWS)
+
+**Optimization:**
+- [ ] Model compression (pruning, quantization)
+- [x] Improving inference speed
+- [ ] Reducing model size
 
 ---
 
