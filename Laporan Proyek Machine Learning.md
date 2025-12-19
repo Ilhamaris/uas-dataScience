@@ -159,7 +159,7 @@ Jadi, fokuslah pada Histogram, Boxplot, Heatmap Korelasi, Bar Plot (termasuk Cla
 
 
 #### Visualisasi 1: Histogram
-![Visualisasi 1: Histogram](images\visualisasi_histogram.png)
+![Visualisasi 1: Histogram](images/visualisasi_histogram.png)
 
 **Insight:**  
 1.  **Distribution of `having_IP_Address`:**
@@ -186,8 +186,8 @@ Jadi, fokuslah pada Histogram, Boxplot, Heatmap Korelasi, Bar Plot (termasuk Cla
 
 #### Visualisasi 2: Box Plot
 
-![Visualisasi 2: Box Plot](images\visualisasi_boxplot1.png)
-![Visualisasi 2: Box Plot](images\visualisasi_boxplot2.png)
+![Visualisasi 2: Box Plot](images/visualisasi_boxplot1.png)
+![Visualisasi 2: Box Plot](images/visualisasi_boxplot2.png)
 
 **Insight:**  
 1.  **Box Plot of `URL_Length` by Result:**
@@ -212,7 +212,7 @@ Jadi, fokuslah pada Histogram, Boxplot, Heatmap Korelasi, Bar Plot (termasuk Cla
 
 #### Visualisasi 3: Confusion Matrix Heatmap
 
-![Visualisasi 3: Confusion Matrix Heatmap](images\visualisasi_heatmap.png)
+![Visualisasi 3: Confusion Matrix Heatmap](images/visualisasi_heatmap.png)
 
 **Insight:**  
 Matriks ini memiliki empat komponen utama:
@@ -551,7 +551,7 @@ rf_model_tuned = RandomForestClassifier(
 # Train the model
 print("Melatih model Random Forest (tuned) dengan parameter terbaik...")
 rf_model_tuned.fit(X_train, y_train)
-print("Model Random Forest (tuned) selesai dilatih.\n")
+print("Model Random Forest (tuned) selesai dilatih./n")
 
 # Make predictions on the test set
 y_pred_rf_tuned = rf_model_tuned.predict(X_test)
@@ -670,7 +670,7 @@ Pelatihan dilakukan menggunakan **CPU** di platform **Google Colab** (runtime de
 
 **Training History Visualization:**
 
-![Training History Visualization](images\Training_History_Visualization.png)
+![Training History Visualization](images/Training_History_Visualization.png)
 
 **Analisis Training:**
 
@@ -680,7 +680,7 @@ Pelatihan dilakukan menggunakan **CPU** di platform **Google Colab** (runtime de
 
 #### 6.3.7 Model Summary
 
-![Model Summary](images\Model_Summary.png)
+![Model Summary](images/Model_Summary.png)
 
 ---
 
@@ -704,7 +704,7 @@ Menggunakan Confusion matrix, berfungsi untuk mengevaluasi kinerja model klasifi
 ```
 
 **Confusion Matrix / Visualization:**  
-![LConfusion Matrix ogistic Regression](images\confusion_logistic_regression.png)
+![LConfusion Matrix ogistic Regression](images/confusion_logistic_regression.png)
 
 #### 7.2.2 Model 2 (Advanced/ML) Random Forest
 
@@ -718,7 +718,7 @@ Menggunakan Confusion matrix, berfungsi untuk mengevaluasi kinerja model klasifi
 ```
 
 **Confusion Matrix / Visualization:**  
-![Confusion Matrix Random Forest](images\confusion_random_forest.png)
+![Confusion Matrix Random Forest](images/confusion_random_forest.png)
 
 **Feature Importance (jika applicable):**  
 [Insert plot feature importance untuk tree-based models]
@@ -735,7 +735,7 @@ Menggunakan Confusion matrix, berfungsi untuk mengevaluasi kinerja model klasifi
 ```
 
 **Confusion Matrix / Visualization:**  
-![Confusion Matrix Multilayer Perceptron MPL](images\confusion_Multilayer_Perceptron_MPL.png)
+![Confusion Matrix Multilayer Perceptron MPL](images/confusion_Multilayer_Perceptron_MPL.png)
 
 **Training History:**  
 [Sudah diinsert di Section 6.3.6]
@@ -751,7 +751,7 @@ Menggunakan Confusion matrix, berfungsi untuk mengevaluasi kinerja model klasifi
 | Multilayer Perceptron MLP | 0.9242 | 0.9259 | 0.9242 | 0.9242 | 0.9826 |
 
 **Visualisasi Perbandingan:**  
-![Visualisasi Perbandingan](images\Visualisasi_Perbandingan.png)
+![Visualisasi Perbandingan](images/Visualisasi_Perbandingan.png)
 
 ### 7.4 Analisis Hasil
 
